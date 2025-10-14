@@ -11,22 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('supplier_items', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
-            $table->string('kode_item')->unique();
-            $table->string('nama_item');
-            $table->date('tgl_kadaluarsa')->nullable();
+            $table->string('nama');
+            $table->string('kode_supplier');
+            $table->string('alamat')->nullable();
+            $table->string('no_telp')->nullable();
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('supplier_items');
+        Schema::dropIfExists('suppliers');
     }
 };

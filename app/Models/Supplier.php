@@ -2,31 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'kode_supplier',
-        'nama_supplier',
-    ];
+    protected $fillable = ['nama', 'kode_supplier', 'alamat', 'no_telp'];
 
     public function items()
     {
-        return $this->hasMany(SupplierItem::class);
+        return $this->hasMany(Item::class);
     }
 
-    // Fixed: Changed from hasOne to hasMany
-    public function laporan()
+    public function orderPembelian()
     {
-        return $this->hasMany(LaporanTerimaBarang::class, 'supplier_id');
-    }
-
-    public function transaksi()
-    {
-        return $this->hasMany(Transaksi::class, 'supplier_id');
+        return $this->hasMany(\App\Models\OrderPembelian::class, 'supplier_id');
     }
 }

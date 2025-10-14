@@ -1,37 +1,45 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\LaporanTerimaBarangController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OrderPembelianController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\BarangMasukController;
 
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// Default halaman
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login'); // langsung arahkan ke login
 });
 
-Route::get('/login', function () {
-    return view('login');
+// Authentication
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit')->middleware('guest');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Protected routes (hanya bisa diakses setelah login)
+Route::middleware('auth')->group(function () {
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu')->middleware('auth');
+    Route::resource('suppliers', SupplierController::class);
+    Route::resource('items', ItemController::class);
+    Route::get('suppliers/{supplier}', [SupplierController::class, 'show'])->name('suppliers.show');
+    Route::resource('orders', OrderPembelianController::class);
+
+    // Barang Masuk
+    Route::get('/transaksi', [OrderPembelianController::class, 'getTransaksi']);
+    Route::get('/barang-masuk/transaksi', [BarangMasukController::class, 'getTransaksiPO']);
+    Route::get('/barang-masuk/transaksi/{no_bukti}', [BarangMasukController::class, 'getDetailBarang']);
+    Route::resource('barang-masuk', BarangMasukController::class);
+    Route::get('/barang-masuk/create', [BarangMasukController::class, 'create'])->name('barang-masuk.create');
+    Route::post('/barang-masuk', [BarangMasukController::class, 'store'])->name('barang-masuk.store');
 });
-
-use App\Http\Controllers\Auth\LoginController;
-
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::post('/supplier/calculate-summary', [SupplierController::class, 'calculateSummary'])->name('supplier.calculate-summary');
-Route::get('/supplier/{supplier}/items', [SupplierController::class, 'getItems']);
-Route::get('/OrderPembelian', [SupplierController::class, 'create'])->name('supplier.create');
-Route::post('/supplier/store', [SupplierController::class, 'store'])->name('supplier.store');
-Route::get('/supplier/history', [SupplierController::class, 'history'])->name('supplier.history');
-Route::get('/supplier/{id}/detail', [SupplierController::class, 'detail'])->name('supplier.detail');
-Route::get('/supplier/{id}', [SupplierController::class, 'show'])->name('supplier.show');
-
-// Laporan
-Route::get('/supplier/history', [LaporanTerimaBarangController::class, 'index'])->name('supplier.history');
-Route::get('/supplier/{laporan}', [LaporanTerimaBarangController::class, 'show'])->name('supplier.show');
-Route::get('/supplier/print/{no_bukti}', [SupplierController::class, 'print'])->name('supplier.print');
-
-
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

@@ -11,24 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_id')->unique(); // kode unik karyawan
+            $table->foreignId('supplier_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
-            $table->string('department')->nullable();
-            $table->string('position')->nullable();
+            $table->string('sku')->unique();
+            $table->foreignId('satuan_id')->constrained('satuan');
             $table->timestamps();
-
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('items');
     }
 };

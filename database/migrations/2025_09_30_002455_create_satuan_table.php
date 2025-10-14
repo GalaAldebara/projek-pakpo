@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('satuan', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_supplier');
-            $table->string('nama_supplier');
+            $table->string('kode')->unique(); // contoh: PCS, KG, L, BOX
+            $table->string('nama');           // contoh: Pcs, Kilogram, Liter, Box
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('supplier');
+        Schema::dropIfExists('satuan');
     }
 };
