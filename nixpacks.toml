@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ['nodejs_20', 'php83', 'php83Packages.composer']
+
+[phases.install]
+cmds = [
+    'composer install --optimize-autoloader --no-dev',
+    'npm ci --omit=dev'
+]
+
+[phases.build]
+cmds = ['npm run build']
+
+[start]
+cmd = 'php artisan migrate --force --seed && php artisan optimize && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}'
