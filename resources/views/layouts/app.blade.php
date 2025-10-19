@@ -362,15 +362,20 @@
                         <span>Orders</span>
                         <i class="bi bi-chevron-down chevron"></i>
                     </button>
-                    <div class="submenu {{ request()->routeIs('orders.*') ? 'show' : '' }}" id="orders-submenu">
-                        <a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
-                            List Pembelian
-                        </a>
-                        <a href="{{ route('orders.create') }}" class="submenu-item {{ request()->routeIs('orders.create') ? 'active' : '' }}">
-                            Order Barang Masuk
-                        </a>
-                    </div>
-                </div>
+<div class="submenu show" id="orders-submenu">
+    <a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+        List Pembelian
+    </a>
+    <a href="{{ route('orders.create') }}" class="submenu-item {{ request()->routeIs('orders.create') ? 'active' : '' }}">
+        Order Pembelian
+    </a>
+    <a href="{{ route('barang-masuk.index') }}" class="submenu-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">
+        List Barang Masuk
+    </a>
+    <a href="{{ route('barang-masuk.create') }}" class="submenu-item {{ request()->routeIs('barang-masuk.create') ? 'active' : '' }}">
+        Terima Barang Masuk
+    </a>
+</div>
 
                 <div class="menu-group">
                     <button class="menu-item {{ request()->routeIs('items.*') ? 'active expanded' : '' }}" onclick="toggleSubmenu('products-submenu', this)">

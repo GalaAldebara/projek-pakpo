@@ -42,4 +42,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('barang-masuk', BarangMasukController::class);
     Route::get('/barang-masuk/create', [BarangMasukController::class, 'create'])->name('barang-masuk.create');
     Route::post('/barang-masuk', [BarangMasukController::class, 'store'])->name('barang-masuk.store');
+    Route::get('barang-masuk/{id}/cetak', [BarangMasukController::class, 'cetak'])->name('barang-masuk.cetak');
 });

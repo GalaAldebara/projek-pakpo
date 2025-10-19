@@ -33,12 +33,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        <div>
-                            <span class="text-gray-900 font-medium" id="supplier_name_display">Pilih Supplier</span>
-                            <button type="button" id="btnCariSupplier" class="ml-2 text-blue-600 hover:text-blue-700 text-sm">
-                                Supplier
-                            </button>
-                        </div>
+<div class="flex items-center">
+    <span class="text-gray-900 font-medium" id="supplier_name_display">Supplier</span>
+    <button type="button" id="btnCariSupplier"
+        class="ml-2 px-3 py-1 border border-blue-600 text-blue-600 rounded-md text-sm hover:bg-blue-600 hover:text-white transition duration-200">
+        Pilih
+    </button>
+</div>
+
                     </div>
                     <div class="flex items-center space-x-4">
                         <label class="flex items-center text-sm text-gray-600">
@@ -62,10 +64,6 @@
                     <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
                         <div class="flex items-center justify-between">
                             <span class="text-sm text-gray-600">Product Details</span>
-                            <button type="button" id="btnCariSKU" disabled
-                                    class="px-4 py-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium disabled:text-gray-400">
-                                + Tambah Item
-                            </button>
                         </div>
                     </div>
 
@@ -78,44 +76,52 @@
                             <div class="col-span-1">Satuan</div>
                             <div class="col-span-2">Harga Item</div>
                             <div class="col-span-2">Tanggal Kirim</div>
+                            <div class="col-span-1 text-center">Aksi</div>
                         </div>
 
-                        <!-- Product Item -->
-                        <div class="grid grid-cols-12 gap-4 items-center py-3 border-t border-gray-100">
-                            <div class="col-span-2">
-                                <input type="text" id="sku_display"
-                                       class="w-full px-3 py-2 text-sm border border-gray-300 rounded hover:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
-                                       readonly
-                                       placeholder="Klik Untuk Memilih..."
-                                       disabled>
-                                <input type="hidden" name="item_id" id="item_id">
+                        <div id="item-container">
+                            <!-- Default item row -->
+                            <div class="item-row grid grid-cols-12 gap-4 items-center py-3 border-t border-gray-100">
+                                <div class="col-span-2">
+                                    <input type="text"
+                                           class="sku_display w-full px-3 py-2 text-sm border border-gray-300 rounded hover:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                                           placeholder="Klik Pilih..." readonly>
+                                    <input type="hidden" name="item_id[]" class="item_id">
+                                </div>
+                                <div class="col-span-3">
+                                    <input type="text"
+                                           class="nama_item w-full px-3 py-2 text-sm border border-gray-300 rounded bg-gray-50 focus:outline-none" readonly>
+                                </div>
+                                <div class="col-span-1">
+                                    <input type="number" name="jumlah[]" min="1"
+                                           class="jumlah w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                </div>
+                                <div class="col-span-1">
+                                    <input type="text"
+                                           class="satuan_display w-full px-3 py-2 text-sm border border-gray-300 rounded bg-gray-50 focus:outline-none" readonly>
+                                    <input type="hidden" name="satuan_id[]" class="satuan_id">
+                                </div>
+                                <div class="col-span-2">
+                                    <input type="number" name="harga[]" step="0.01"
+                                           class="harga w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                </div>
+                                <div class="col-span-2">
+                                    <input type="date" name="tgl_kirim[]"
+                                           class="tgl_kirim w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                </div>
+                                <div class="col-span-1 text-center">
+                                    <button type="button" class="btn-remove-item text-red-600 hover:text-red-700 font-bold text-lg">✕</button>
+                                </div>
                             </div>
-                            <div class="col-span-3">
-                                <input type="text" id="nama_item"
-                                       class="w-full px-3 py-2 text-sm border border-gray-300 rounded bg-gray-50 focus:outline-none"
-                                       readonly>
-                            </div>
-                            <div class="col-span-1">
-                                <input type="number" name="jumlah" id="jumlah" min="1"
-                                       class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                       disabled>
-                            </div>
-                            <div class="col-span-1">
-                                <input type="text" id="satuan_display"
-                                       class="w-full px-3 py-2 text-sm border border-gray-300 rounded bg-gray-50 focus:outline-none"
-                                       readonly disabled>
-                                <input type="hidden" name="satuan_id" id="satuan_id">
-                            </div>
-                            <div class="col-span-2">
-                                <input type="number" name="harga" id="harga" step="0.01"
-                                       class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                       disabled>
-                            </div>
-                            <div class="col-span-2">
-                                <input type="date" name="tgl_kirim" id="tgl_kirim"
-                                       class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                       disabled>
-                            </div>
+                        </div>
+
+                        <!-- Tombol tambah baris -->
+                        <div class="mt-4">
+                            <button type="button" id="add-item-row"
+                                class="px-4 py-2 rounded text-white text-sm font-medium"
+                                style="background-color: #6366f1; hover:background-color: #4f46e5;">
+                                ➕ Tambah Item
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -236,7 +242,7 @@
 <div id="modalSKU" class="hidden fixed inset-0 bg-black/30 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-            <h3 class="text-lg font-medium text-gray-900">Select SKU</h3>
+            <h3 class="text-lg font-medium text-gray-900">Pilih SKU</h3>
             <button type="button" id="closeModalSKU" class="text-gray-400 hover:text-gray-600">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -248,8 +254,8 @@
                 <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">SKU</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Item Name</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Action</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama Item</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="skuListBody" class="divide-y divide-gray-200">
@@ -264,7 +270,7 @@
                                         data-nama="{{ $item->name }}"
                                         data-satuan-id="{{ $item->satuan->id ?? '' }}"
                                         data-satuan-nama="{{ $item->satuan->nama ?? '' }}">
-                                    Select
+                                    Pilih
                                 </button>
                             </td>
                         </tr>
@@ -280,11 +286,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const orderFields = document.getElementById('order-fields');
     const financeFields = document.getElementById('finance-fields');
-    const jumlah = document.getElementById('jumlah');
-    const harga = document.getElementById('harga');
-    const tglKirim = document.getElementById('tgl_kirim');
-    const skuDisplay = document.getElementById('sku_display');
-    const btnCariSKU = document.getElementById('btnCariSKU');
+    const itemContainer = document.getElementById('item-container');
+    const addItemBtn = document.getElementById('add-item-row');
+    let currentSKUInput = null; // Track which SKU input is being filled
 
     // Modal Supplier
     document.getElementById('btnCariSupplier').addEventListener('click', () => {
@@ -304,7 +308,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Enable order fields
             orderFields.classList.remove('opacity-50', 'pointer-events-none');
-            orderFields.querySelectorAll('input, button').forEach(el => el.disabled = false);
 
             document.getElementById('modalSupplier').classList.add('hidden');
         });
@@ -315,48 +318,104 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeModalSKU = document.getElementById('closeModalSKU');
     const skuRows = document.querySelectorAll('.sku-row');
 
-    // Click on SKU input or button
-    function openSKUModal() {
-        if (!skuDisplay.disabled) {
+    // Event delegation for SKU input clicks
+    itemContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('sku_display')) {
             const supplierId = document.getElementById('supplier_id').value;
+            if (!supplierId) {
+                alert('Pilih supplier terlebih dahulu!');
+                return;
+            }
+
+            currentSKUInput = e.target; // Store reference to clicked input
+
             skuRows.forEach(row => {
                 row.classList.toggle('hidden', row.dataset.supplier !== supplierId);
             });
             modalSKU.classList.remove('hidden');
         }
-    }
-
-    skuDisplay.addEventListener('click', openSKUModal);
-    btnCariSKU.addEventListener('click', openSKUModal);
+    });
 
     closeModalSKU.addEventListener('click', () => {
         modalSKU.classList.add('hidden');
+        currentSKUInput = null;
     });
 
     // Pilih SKU
     document.querySelectorAll('.pilihSKU').forEach(btn => {
         btn.addEventListener('click', function () {
-            document.getElementById('item_id').value = this.dataset.id;
-            document.getElementById('sku_display').value = this.dataset.sku;
-            document.getElementById('nama_item').value = this.dataset.nama;
-            document.getElementById('satuan_display').value = this.dataset.satuanNama;
-            document.getElementById('satuan_id').value = this.dataset.satuanId;
+            if (!currentSKUInput) return;
+
+            const row = currentSKUInput.closest('.item-row');
+
+            // Fill the current row
+            row.querySelector('.item_id').value = this.dataset.id;
+            row.querySelector('.sku_display').value = this.dataset.sku;
+            row.querySelector('.nama_item').value = this.dataset.nama;
+            row.querySelector('.satuan_display').value = this.dataset.satuanNama;
+            row.querySelector('.satuan_id').value = this.dataset.satuanId;
+
             modalSKU.classList.add('hidden');
+            currentSKUInput = null;
+
+            checkFinanceFields();
         });
     });
 
-    // Enable finance fields
-    function checkOrderFilled() {
-        const itemId = document.getElementById('item_id').value;
-        if (itemId && jumlah.value && harga.value && tglKirim.value) {
+    // Tambah item baru
+    addItemBtn.addEventListener('click', function () {
+        const firstRow = itemContainer.querySelector('.item-row');
+        const newRow = firstRow.cloneNode(true);
+
+        // Clear all input values
+        newRow.querySelectorAll('input').forEach(input => {
+            input.value = '';
+        });
+
+        itemContainer.appendChild(newRow);
+    });
+
+    // Hapus item
+    itemContainer.addEventListener('click', function (e) {
+        if (e.target.classList.contains('btn-remove-item')) {
+            const allRows = itemContainer.querySelectorAll('.item-row');
+            if (allRows.length > 1) {
+                e.target.closest('.item-row').remove();
+                hitungRingkasan();
+            } else {
+                alert('Minimal satu item harus ada.');
+            }
+        }
+    });
+
+    // Enable finance fields when at least one item is filled
+    function checkFinanceFields() {
+        const allRows = itemContainer.querySelectorAll('.item-row');
+        let hasValidItem = false;
+
+        allRows.forEach(row => {
+            const itemId = row.querySelector('.item_id').value;
+            const jumlah = row.querySelector('.jumlah').value;
+            const harga = row.querySelector('.harga').value;
+            const tglKirim = row.querySelector('.tgl_kirim').value;
+
+            if (itemId && jumlah && harga && tglKirim) {
+                hasValidItem = true;
+            }
+        });
+
+        if (hasValidItem) {
             financeFields.classList.remove('opacity-50', 'pointer-events-none');
             financeFields.querySelectorAll('input').forEach(el => el.disabled = false);
         }
     }
 
-    [jumlah, harga, tglKirim].forEach(el => {
-        el.addEventListener('change', checkOrderFilled);
-        el.addEventListener('input', checkOrderFilled);
+    // Listen to changes in all item rows
+    itemContainer.addEventListener('input', function(e) {
+        if (e.target.matches('.jumlah, .harga, .tgl_kirim')) {
+            checkFinanceFields();
+            hitungRingkasan();
+        }
     });
 
     // Kredit toggle
@@ -377,13 +436,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function hitungRingkasan() {
-        const jml = parseFloat(jumlah?.value || 0);
-        const hrg = parseFloat(harga?.value || 0);
+        const allRows = itemContainer.querySelectorAll('.item-row');
+        let subtotal = 0;
+
+        allRows.forEach(row => {
+            const jumlah = parseFloat(row.querySelector('.jumlah').value || 0);
+            const harga = parseFloat(row.querySelector('.harga').value || 0);
+            subtotal += jumlah * harga;
+        });
+
         const disc = parseFloat(document.getElementById('discount')?.value || 0);
         const ppnVal = parseFloat(document.getElementById('ppn')?.value || 0);
         const pphVal = parseFloat(document.getElementById('pph')?.value || 0);
 
-        const subtotal = jml * hrg;
         const discountAmount = subtotal * (disc / 100);
         const afterDiscount = subtotal - discountAmount;
         const ppnAmount = afterDiscount * (ppnVal / 100);
@@ -398,7 +463,9 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("summaryGrandTotal").textContent = formatRupiah(grandTotal);
     }
 
-    [jumlah, harga, document.getElementById('discount'), document.getElementById('ppn'), document.getElementById('pph')].forEach(el => {
+    // Listen to financial field changes
+    ['discount', 'ppn', 'pph'].forEach(id => {
+        const el = document.getElementById(id);
         if (el) el.addEventListener("input", hitungRingkasan);
     });
 });

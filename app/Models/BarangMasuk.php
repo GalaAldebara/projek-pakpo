@@ -9,6 +9,12 @@ class BarangMasuk extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'tanggal_terima' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     protected $table = 'barang_masuk';
 
     protected $fillable = [

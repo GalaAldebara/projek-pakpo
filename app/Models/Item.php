@@ -29,6 +29,6 @@ class Item extends Model
 
     public function satuan()
     {
-        return $this->belongsTo(Satuan::class);
+        return $this->belongsTo(Satuan::class, 'satuan_id');
     }
 }

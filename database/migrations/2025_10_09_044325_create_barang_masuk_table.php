@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('no_bukti'); // No bukti PO yang diambil dari order_pembelian
             $table->date('tanggal_terima');
             $table->string('surat_jalan')->nullable();
-            $table->enum('status', ['PENDING', 'DITERIMA', 'SELESAI'])->default('DITERIMA');
+            $table->enum('status', ['BARANG KURANG', 'DITERIMA', 'BELUM DITERIMA'])->default('DITERIMA');
             $table->text('keterangan')->nullable();
             $table->timestamps();
 

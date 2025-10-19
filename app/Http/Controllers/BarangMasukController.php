@@ -6,9 +6,11 @@ use App\Models\BarangMasuk;
 use App\Models\BarangMasukDetail;
 use App\Models\OrderPembelian;
 use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class BarangMasukController extends Controller
 {
@@ -27,50 +29,35 @@ class BarangMasukController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi dengan pesan custom dalam bahasa Indonesia
         $validator = Validator::make($request->all(), [
             'supplier_id' => 'required|exists:suppliers,id',
             'no_bukti' => 'required|string',
             'tanggal_terima' => 'required|date',
-            'status' => 'required|in:PENDING,DITERIMA,SELESAI',
             'detail' => 'required|array|min:1',
             'detail.*.kode_barang' => 'required|string',
             'detail.*.nama_barang' => 'required|string',
-            'detail.*.jumlah_terima' => 'required|numeric|min:1',
+            'detail.*.jumlah_order' => 'required|numeric|min:1',
+            'detail.*.jumlah_terima' => 'required|numeric|min:0',
         ], [
-            // Custom messages untuk field utama
             'supplier_id.required' => 'Supplier wajib dipilih',
-            'supplier_id.exists' => 'Supplier tidak ditemukan dalam database',
+            'supplier_id.exists' => 'Supplier tidak ditemukan',
             'no_bukti.required' => 'Nomor bukti (PO) wajib diisi',
             'tanggal_terima.required' => 'Tanggal terima wajib diisi',
-            'tanggal_terima.date' => 'Format tanggal terima tidak valid',
-            'status.required' => 'Status wajib dipilih',
-            'status.in' => 'Status harus PENDING, DITERIMA, atau SELESAI',
-
-            // Custom messages untuk detail array
             'detail.required' => 'Detail barang wajib diisi',
             'detail.array' => 'Format detail barang tidak valid',
             'detail.min' => 'Minimal harus ada 1 detail barang',
-
-            // Custom messages untuk setiap field dalam detail
-            'detail.*.kode_barang.required' => 'Kode barang pada baris :position wajib diisi',
-            'detail.*.nama_barang.required' => 'Nama barang pada baris :position wajib diisi',
-            'detail.*.jumlah_terima.required' => 'Jumlah terima pada baris :position wajib diisi',
-            'detail.*.jumlah_terima.numeric' => 'Jumlah terima pada baris :position harus berupa angka',
-            'detail.*.jumlah_terima.min' => 'Jumlah terima pada baris :position minimal 1 (tidak boleh 0)',
         ]);
 
-        // Custom validation untuk menampilkan nama barang di error message
         $validator->after(function ($validator) use ($request) {
             if ($request->has('detail')) {
                 foreach ($request->detail as $index => $detail) {
                     $namaBarang = $detail['nama_barang'] ?? "Baris " . ($index + 1);
                     $jumlahTerima = $detail['jumlah_terima'] ?? 0;
 
-                    if ($jumlahTerima <= 0) {
+                    if ($jumlahTerima < 0) {
                         $validator->errors()->add(
                             "detail.$index.jumlah_terima",
-                            "Jumlah terima untuk barang '{$namaBarang}' tidak boleh 0 atau kosong"
+                            "Jumlah terima untuk barang '{$namaBarang}' tidak boleh negatif"
                         );
                     }
                 }
@@ -78,29 +65,39 @@ class BarangMasukController extends Controller
         });
 
         if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput()
-                ->with('error', 'Terdapat kesalahan pada input data. Silakan periksa kembali.');
+            return back()->withErrors($validator)->withInput()->with('error', 'Terdapat kesalahan pada input data.');
         }
 
         DB::beginTransaction();
 
         try {
-            // Simpan data barang masuk utama
+            // cek apakah ada jumlah terima < jumlah order
+            $isBarangKurang = false;
+            foreach ($request->detail as $detail) {
+                if ($detail['jumlah_terima'] < $detail['jumlah_order']) {
+                    $isBarangKurang = true;
+                    break;
+                }
+            }
+
+            // status barang masuk
+            $statusBarangMasuk = $isBarangKurang ? 'BARANG KURANG' : 'DITERIMA';
+
+            // simpan barang masuk
             $barangMasuk = BarangMasuk::create([
                 'supplier_id' => $request->supplier_id,
                 'no_bukti' => $request->no_bukti,
                 'tanggal_terima' => $request->tanggal_terima,
                 'surat_jalan' => $request->surat_jalan,
-                'status' => $request->status,
+                'status' => $statusBarangMasuk,
                 'keterangan' => $request->keterangan,
             ]);
 
-            // Simpan detail barang masuk
+            // simpan detail barang masuk
             foreach ($request->detail as $detail) {
                 BarangMasukDetail::create([
                     'barang_masuk_id' => $barangMasuk->id,
+                    'order_pembelian_id' => $detail['order_pembelian_id'] ?? null,
                     'kode_barang' => $detail['kode_barang'] ?? '',
                     'nama_barang' => $detail['nama_barang'] ?? '',
                     'jumlah_order' => $detail['jumlah_order'] ?? 0,
@@ -110,9 +107,17 @@ class BarangMasukController extends Controller
                 ]);
             }
 
-            // Update status order_pembelian terkait
-            OrderPembelian::where('no_bukti', $request->no_bukti)
-                ->update(['status' => 'SELESAI']);
+            // update status order pembelian: cek semua pengiriman untuk PO ini
+            $po = OrderPembelian::where('no_bukti', $request->no_bukti)->get();
+            foreach ($po as $item) {
+                $totalTerima = BarangMasukDetail::where('order_pembelian_id', $item->id)->sum('jumlah_terima');
+                if ($totalTerima >= $item->jumlah) {
+                    $item->status = 'SELESAI';
+                } else {
+                    $item->status = 'PROSES';
+                }
+                $item->save();
+            }
 
             DB::commit();
 
@@ -120,8 +125,7 @@ class BarangMasukController extends Controller
                 ->with('success', 'Data barang masuk berhasil disimpan dan status PO diperbarui.');
         } catch (\Throwable $e) {
             DB::rollBack();
-            return back()
-                ->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])
+            return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])
                 ->withInput();
         }
     }
@@ -135,9 +139,40 @@ class BarangMasukController extends Controller
     // ✅ API untuk ambil daftar PO (dipakai oleh modal)
     public function getTransaksiPO()
     {
-        $pesanan = OrderPembelian::with('supplier')
-            ->where('status', 'PROSES')
+        // Debug: Cek data barang_masuk
+        $excludedNoBukti = DB::table('barang_masuk')
+            ->whereIn('status', ['BARANG KURANG', 'DITERIMA'])
+            ->pluck('no_bukti')
+            ->toArray();
+
+        // Log untuk debugging (hapus setelah selesai)
+        Log::info('Excluded No Bukti:', $excludedNoBukti);
+
+        $pesanan = DB::table('order_pembelian')
+            ->join('suppliers', 'suppliers.id', '=', 'order_pembelian.supplier_id')
+            ->select(
+                'order_pembelian.no_bukti',
+                'order_pembelian.supplier_id',
+                'suppliers.nama as nama_supplier',
+                'suppliers.kode_supplier',
+                'order_pembelian.status',
+                'order_pembelian.created_at'
+            )
+            ->where('order_pembelian.status', 'PROSES')
+            ->whereNotIn('order_pembelian.no_bukti', $excludedNoBukti)
+            ->groupBy(
+                'order_pembelian.no_bukti',
+                'order_pembelian.supplier_id',
+                'suppliers.nama',
+                'suppliers.kode_supplier',
+                'order_pembelian.status',
+                'order_pembelian.created_at'
+            )
+            ->orderBy('order_pembelian.created_at', 'desc')
             ->get();
+
+        // Log hasil query
+        Log::info('Hasil Pesanan:', $pesanan->toArray());
 
         return response()->json([
             'success' => true,
@@ -148,21 +183,113 @@ class BarangMasukController extends Controller
     // ✅ API untuk ambil detail PO berdasarkan no_bukti
     public function getDetailBarang($no_bukti)
     {
-        $barang = OrderPembelian::with('item.satuan')
-            ->where('no_bukti', $no_bukti)
-            ->get()
-            ->map(function ($po) {
-                return [
-                    'kode' => $po->item->sku ?? '',
-                    'nama' => $po->item->name ?? '',
-                    'jumlah' => $po->jumlah ?? 0,
-                    'satuan' => $po->item->satuan->nama_satuan ?? '',
-                ];
-            });
+        $barang = DB::table('order_pembelian')
+            ->join('items', 'items.id', '=', 'order_pembelian.item_id')
+            ->join('satuan', 'satuan.id', '=', 'order_pembelian.satuan_id')
+            ->where('order_pembelian.no_bukti', $no_bukti)
+            ->select(
+                'items.sku as kode',
+                'items.name as nama',
+                'order_pembelian.jumlah',
+                'satuan.nama as satuan',  // ← INI YANG DIPERBAIKI
+                'order_pembelian.satuan_id',
+                'order_pembelian.id as order_pembelian_id'
+            )
+            ->get();
 
         return response()->json([
             'success' => true,
             'barang' => $barang
         ]);
+    }
+
+    public function edit($id)
+    {
+        $barangMasuk = BarangMasuk::with('details', 'supplier')->findOrFail($id);
+
+        return view('barang-masuk.edit', compact('barangMasuk'));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $barangMasuk = BarangMasuk::with('details')->findOrFail($id);
+
+        // Validasi input
+        $rules = [
+            'tanggal_terima' => 'required|date',
+            'surat_jalan' => 'nullable|string',
+            'keterangan' => 'nullable|string',
+            'details' => 'required|array|min:1',
+        ];
+
+        foreach ($barangMasuk->details as $detail) {
+            $rules['details.' . $detail->id . '.jumlah_terima'] = 'required|numeric|min:0';
+        }
+
+        $validator = Validator::make($request->all(), $rules, [
+            'details.*.jumlah_terima.required' => 'Jumlah terima wajib diisi',
+            'details.*.jumlah_terima.numeric' => 'Jumlah terima harus berupa angka',
+            'details.*.jumlah_terima.min' => 'Jumlah terima minimal 0',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput()->with('error', 'Terdapat kesalahan pada input.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            // Update barang masuk utama
+            $barangMasuk->update([
+                'tanggal_terima' => $request->tanggal_terima,
+                'surat_jalan' => $request->surat_jalan,
+                'keterangan' => $request->keterangan,
+            ]);
+
+            $allTerima = true; // default semua diterima
+
+            // Update setiap detail
+            foreach ($barangMasuk->details as $detail) {
+                $jumlahTerima = $request->details[$detail->id]['jumlah_terima'] ?? 0;
+                $detail->update([
+                    'jumlah_terima' => $jumlahTerima,
+                ]);
+
+                if ($jumlahTerima < $detail->jumlah_order) {
+                    $allTerima = false;
+                }
+            }
+
+            // Update status barang_masuk
+            $barangMasuk->status = $allTerima ? 'DITERIMA' : 'BARANG KURANG';
+            $barangMasuk->save();
+
+            // Update status order_pembelian terkait
+            $poStatus = $allTerima ? 'SELESAI' : 'PROSES';
+            $noBukti = $barangMasuk->no_bukti;
+
+            OrderPembelian::where('no_bukti', $noBukti)->update(['status' => $poStatus]);
+
+            DB::commit();
+
+            return redirect()->route('barang-masuk.index')
+                ->with('success', 'Data barang masuk berhasil diperbarui.');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Gagal memperbarui data: ' . $e->getMessage()])
+                ->withInput();
+        }
+    }
+
+    public function cetak($id)
+    {
+        $barangMasuk = BarangMasuk::with('details', 'supplier')->findOrFail($id);
+
+        // generate pdf
+        $pdf = PDF::loadView('barang-masuk.cetak', compact('barangMasuk'))
+            ->setPaper('A4', 'portrait');
+
+        return $pdf->download('struk_barang_masuk_' . $barangMasuk->no_bukti . '.pdf');
     }
 }

@@ -1,562 +1,441 @@
-{{-- resources/views/barang-masuk/index.blade.php
 @extends('layouts.app')
-
-@section('title', 'Barang Masuk')
-@section('page-title', 'Barang Masuk')
 
 @section('content')
 <style>
-    .form-container {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 24px;
-        margin: 20px;
-    }
-
     .page-header {
-        border-bottom: 2px solid #e2e8f0;
-        padding-bottom: 20px;
-        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
     }
 
     .page-title {
-        font-size: 24px;
-        font-weight: 600;
-        color: #1e293b;
-        margin-bottom: 8px;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0;
     }
 
-    .page-subtitle {
-        color: #64748b;
-        font-size: 14px;
-    }
-
-    .action-bar {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 16px;
-        margin-bottom: 24px;
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-
-    .btn {
-        padding: 10px 16px;
-        border-radius: 6px;
-        border: 1px solid;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.2s;
-    }
-
-    .btn-primary {
-        background: #3b82f6;
-        border-color: #3b82f6;
+    .btn-primary-custom {
+        background: #6366f1;
         color: white;
-    }
-
-    .btn-primary:hover {
-        background: #2563eb;
-        border-color: #2563eb;
-    }
-
-    .btn-secondary {
-        background: white;
-        border-color: #d1d5db;
-        color: #374151;
-    }
-
-    .btn-secondary:hover {
-        background: #f9fafb;
-        border-color: #9ca3af;
-    }
-
-    .btn-success {
-        background: #10b981;
-        border-color: #10b981;
-        color: white;
-    }
-
-    .btn-success:hover {
-        background: #059669;
-        border-color: #059669;
-    }
-
-    .form-section {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 24px;
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        margin-bottom: 16px;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .form-label {
-        font-weight: 500;
-        color: #374151;
-        font-size: 14px;
-    }
-
-    .form-input {
-        padding: 10px 12px;
-        border: 1px solid #d1d5db;
+        border: none;
+        padding: 0.625rem 1.25rem;
         border-radius: 6px;
-        font-size: 14px;
-        transition: border-color 0.2s;
-    }
-
-    .form-input:focus {
-        outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    .form-input[readonly] {
-        background: #f9fafb;
-        color: #6b7280;
-    }
-
-    .table-section {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .table-header {
-        background: #f8fafc;
-        padding: 16px 20px;
-        border-bottom: 1px solid #e2e8f0;
-        font-weight: 600;
-        color: #1e293b;
-    }
-
-    .table-container {
-        overflow-x: auto;
-    }
-
-    .data-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .data-table th {
-        background: #f1f5f9;
-        padding: 12px;
-        text-align: left;
-        font-weight: 600;
-        color: #374151;
-        border-bottom: 1px solid #e2e8f0;
-        font-size: 13px;
-    }
-
-    .data-table td {
-        padding: 12px;
-        border-bottom: 1px solid #f1f5f9;
-        font-size: 14px;
-        color: #374151;
-    }
-
-    .data-table tbody tr:hover {
-        background: #f8fafc;
-    }
-
-    .row-number {
-        width: 60px;
-        text-align: center;
-        background: #f9fafb;
+        font-size: 0.875rem;
         font-weight: 500;
-        color: #6b7280;
-    }
-
-    .text-center { text-align: center; }
-    .text-right { text-align: right; }
-
-    .status-badge {
+        text-decoration: none;
         display: inline-flex;
         align-items: center;
-        padding: 4px 8px;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary-custom:hover {
+        background: #4f46e5;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .content-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
         border-radius: 12px;
-        font-size: 12px;
-        font-weight: 500;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
-    .status-pending {
-        background: #fef3c7;
-        color: #92400e;
+    .table-wrapper {
+        overflow-x: auto;
+        margin-top: 1rem;
     }
 
-    .status-received {
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+    }
+
+    .custom-table thead {
+        background: #f8f9fa;
+    }
+
+    .custom-table th {
+        padding: 0.875rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #1a1a1a;
+        border-bottom: 2px solid #e5e7eb;
+        white-space: nowrap;
+        font-size: 0.8125rem;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+    }
+
+    .custom-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+        color: #374151;
+        vertical-align: top;
+    }
+
+    .custom-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+    .custom-table tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    .custom-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .no-bukti {
+        font-weight: 600;
+        color: #6366f1;
+        font-family: 'Courier New', monospace;
+    }
+
+    .supplier-code {
+        font-weight: 600;
+        color: #374151;
+        font-family: 'Courier New', monospace;
+        font-size: 0.8125rem;
+    }
+
+    .badge {
+        padding: 0.375rem 0.875rem;
+        border-radius: 16px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        display: inline-block;
+    }
+
+    .badge-success {
         background: #d1fae5;
         color: #065f46;
     }
 
-    .footer-note {
-        background: #f0f9ff;
-        border: 1px solid #bae6fd;
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin-top: 20px;
-        font-size: 13px;
-        color: #0c4a6e;
+    .badge-warning {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge-secondary {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .item-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .item-list li {
+        padding: 0.375rem 0;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .item-list li:last-child {
+        border-bottom: none;
+    }
+
+    .item-name {
+        font-weight: 600;
+        color: #1a1a1a;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .item-quantity {
+        font-size: 0.8125rem;
+        color: #6b7280;
+    }
+
+    .item-quantity .qty-label {
+        font-weight: 500;
+    }
+
+    .date-cell {
+        white-space: nowrap;
+        font-size: 0.8125rem;
     }
 
     .action-buttons {
         display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-        margin-top: 24px;
-        padding-top: 20px;
-        border-top: 1px solid #e2e8f0;
+        gap: 0.5rem;
+        flex-wrap: wrap;
     }
 
-    .icon {
-        width: 18px;
-        height: 18px;
+    .btn-action {
+        padding: 0.375rem 0.875rem;
+        border-radius: 6px;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .btn-edit {
+        background: #eff6ff;
+        color: #3b82f6;
+        border: 1px solid #bfdbfe;
+    }
+
+    .btn-edit:hover {
+        background: #dbeafe;
+        border-color: #93c5fd;
+        color: #2563eb;
+    }
+
+    .btn-print {
+        background: #f0fdf4;
+        color: #10b981;
+        border: 1px solid #86efac;
+    }
+
+    .btn-print:hover {
+        background: #dcfce7;
+        border-color: #4ade80;
+        color: #059669;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #6b7280;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: #d1d5db;
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    .empty-state-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state-text {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .stats-mini {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .stat-mini-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        padding: 1rem;
+        color: white;
+    }
+
+    .stat-mini-card.green {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .stat-mini-card.orange {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    .stat-mini-card.gray {
+        background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    }
+
+    .stat-mini-label {
+        font-size: 0.8125rem;
+        opacity: 0.9;
+        margin-bottom: 0.375rem;
+    }
+
+    .stat-mini-value {
+        font-size: 1.5rem;
+        font-weight: 700;
     }
 
     @media (max-width: 768px) {
-        .form-grid {
-            grid-template-columns: 1fr;
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
         }
 
-        .action-bar {
-            flex-direction: column;
+        .custom-table {
+            font-size: 0.8125rem;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 0.75rem 0.5rem;
         }
 
         .action-buttons {
             flex-direction: column;
         }
+
+        .btn-action {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .stats-mini {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
-<div class="form-container">
-    <!-- Page Header -->
-    <div class="page-header">
-        <h1 class="page-title">Penerimaan Barang</h1>
-        <p class="page-subtitle">Form untuk mencatat penerimaan barang dari supplier</p>
+<div class="page-header">
+    <h1 class="page-title">Daftar Barang Masuk</h1>
+    <a href="{{ route('barang-masuk.create') }}" class="btn-primary-custom">
+        <i class="bi bi-plus-circle"></i>
+        Tambah Barang Masuk
+    </a>
+</div>
+
+<!-- Mini Statistics -->
+<div class="stats-mini">
+    <div class="stat-mini-card">
+        <div class="stat-mini-label">Total Barang Masuk</div>
+        <div class="stat-mini-value">{{ $barangMasuk->count() }}</div>
     </div>
-
-    <!-- Action Bar -->
-    <div class="action-bar">
-        <button class="btn btn-primary">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-            Cari Order
-        </button>
-        <button class="btn btn-secondary">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Baru
-        </button>
-        <button class="btn btn-secondary">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-            </svg>
-            Cetak
-        </button>
+    <div class="stat-mini-card green">
+        <div class="stat-mini-label">Diterima</div>
+        <div class="stat-mini-value">{{ $barangMasuk->where('status', 'DITERIMA')->count() }}</div>
     </div>
-
-    <!-- Form Section -->
-    <div class="form-section">
-        <div class="form-grid">
-            <div class="form-group">
-                <label class="form-label">No. Bukti Penerimaan</label>
-                <input type="text" class="form-input" value="BM070920250001" readonly>
-            </div>
-            <div class="form-group">
-                <label class="form-label">No. Order Pembelian</label>
-                <input type="text" class="form-input" value="OR1010001070920250001">
-            </div>
-        </div>
-
-        <div class="form-grid">
-            <div class="form-group">
-                <label class="form-label">Kode Supplier</label>
-                <input type="text" class="form-input" value="1010001" readonly>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Nama Supplier</label>
-                <input type="text" class="form-input" value="ABADI JAYA.PR. , DS.KARANGPANDAN 79 PK-AJI , MALANG" readonly>
-            </div>
-        </div>
-
-        <div class="form-grid">
-            <div class="form-group">
-                <label class="form-label">Gudang</label>
-                <select class="form-input">
-                    <option value="0000">Gudang Utama (0000)</option>
-                    <option value="0001">Gudang Cabang (0001)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Tanggal Terima</label>
-                <input type="date" class="form-input" value="2025-09-07">
-            </div>
-            <div class="form-group">
-                <label class="form-label">No. Surat Jalan</label>
-                <input type="text" class="form-input" placeholder="Masukkan nomor surat jalan">
-            </div>
-        </div>
+    <div class="stat-mini-card orange">
+        <div class="stat-mini-label">Barang Kurang</div>
+        <div class="stat-mini-value">{{ $barangMasuk->where('status', 'BARANG KURANG')->count() }}</div>
     </div>
-
-    <!-- Table Section -->
-    <div class="table-section">
-        <div class="table-header">
-            Detail Barang yang Diterima
-        </div>
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th class="row-number">#</th>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th class="text-center">Jumlah Order</th>
-                        <th class="text-center">Jumlah Terima</th>
-                        <th class="text-center">Selisih</th>
-                        <th class="text-center">Satuan</th>
-                        <th>No. PO</th>
-                        <th class="text-center">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="row-number">1</td>
-                        <td>001001</td>
-                        <td>AMERICAN 114/8611243</td>
-                        <td class="text-right">5,000.000</td>
-                        <td class="text-right">
-                            <input type="number" class="form-input" style="width: 120px; margin: 0;" step="0.001" value="5000">
-                        </td>
-                        <td class="text-right" style="color: #059669; font-weight: 500;">0.000</td>
-                        <td class="text-center">KG</td>
-                        <td>LO25090001</td>
-                        <td class="text-center">
-                            <span class="status-badge status-received">Sesuai</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="row-number">2</td>
-                        <td>002001</td>
-                        <td>CHEMICAL COMPOUND X20</td>
-                        <td class="text-right">2,500.000</td>
-                        <td class="text-right">
-                            <input type="number" class="form-input" style="width: 120px; margin: 0;" step="0.001" placeholder="0.000">
-                        </td>
-                        <td class="text-right">-</td>
-                        <td class="text-center">KG</td>
-                        <td>LO25090001</td>
-                        <td class="text-center">
-                            <span class="status-badge status-pending">Pending</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="row-number">3</td>
-                        <td>003001</td>
-                        <td>INDUSTRIAL GRADE POLYMER</td>
-                        <td class="text-right">1,000.000</td>
-                        <td class="text-right">
-                            <input type="number" class="form-input" style="width: 120px; margin: 0;" step="0.001" placeholder="0.000">
-                        </td>
-                        <td class="text-right">-</td>
-                        <td class="text-center">KG</td>
-                        <td>LO25090001</td>
-                        <td class="text-center">
-                            <span class="status-badge status-pending">Pending</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Footer Note -->
-    <div class="footer-note">
-        <strong>Petunjuk:</strong> Masukkan jumlah barang yang benar-benar diterima. Sistem akan otomatis menghitung selisih antara jumlah order dan jumlah terima.
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-        <button class="btn btn-secondary" onclick="batalInput()">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-            Batal
-        </button>
-        <button class="btn btn-secondary">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
-            </svg>
-            Simpan Draft
-        </button>
-        <button class="btn btn-success" onclick="simpanBarangMasuk()">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Konfirmasi Penerimaan
-        </button>
+    <div class="stat-mini-card gray">
+        <div class="stat-mini-label">Belum Diterima</div>
+        <div class="stat-mini-value">{{ $barangMasuk->where('status', 'BELUM DITERIMA')->count() }}</div>
     </div>
 </div>
 
-<script>
-function simpanBarangMasuk() {
-    // Collect form data
-    const formData = {
-        no_bukti: document.querySelector('input[value="OR1010001070920250001"]').value,
-        no_penerimaan: document.querySelector('input[value="BM070920250001"]').value,
-        supplier_id: '1',
-        tanggal_terima: document.querySelector('input[type="date"]').value,
-        surat_jalan: document.querySelector('input[placeholder="Masukkan nomor surat jalan"]').value,
-        barang: []
-    };
-
-    // Get items data
-    const rows = document.querySelectorAll('.data-table tbody tr');
-    rows.forEach((row, index) => {
-        const jumlahTerima = row.querySelector('input[type="number"]').value;
-        if (jumlahTerima && jumlahTerima > 0) {
-            formData.barang.push({
-                kode: row.cells[1].textContent.trim(),
-                nama: row.cells[2].textContent.trim(),
-                jumlah_order: parseFloat(row.cells[3].textContent.replace(/[,]/g, '')),
-                jumlah_terima: parseFloat(jumlahTerima),
-                satuan: row.cells[6].textContent.trim(),
-                no_po: row.cells[7].textContent.trim()
-            });
-        }
-    });
-
-    if (formData.barang.length === 0) {
-        alert('Silakan masukkan jumlah barang yang diterima');
-        return;
-    }
-
-    // Show confirmation
-    const itemCount = formData.barang.length;
-    if (confirm(`Konfirmasi penerimaan ${itemCount} item barang?`)) {
-        alert('Penerimaan barang berhasil disimpan!\nNo. Bukti: ' + formData.no_penerimaan);
-        // Here you would actually submit to the server
-        // fetch('/barang-masuk', { method: 'POST', body: JSON.stringify(formData) })
-    }
-}
-
-function batalInput() {
-    if (confirm('Yakin ingin membatalkan input?')) {
-        window.location.href = '{{ route("menu") }}';
-    }
-}
-
-// Auto calculate selisih when jumlah_terima changes
-document.querySelectorAll('input[type="number"]').forEach(input => {
-    input.addEventListener('input', function() {
-        const row = this.closest('tr');
-        const jumlahOrder = parseFloat(row.cells[3].textContent.replace(/[,]/g, ''));
-        const jumlahTerima = parseFloat(this.value) || 0;
-        const selisih = jumlahTerima - jumlahOrder;
-
-        const selisihCell = row.cells[5];
-        selisihCell.textContent = selisih.toFixed(3);
-
-        // Update status
-        const statusCell = row.querySelector('.status-badge');
-        if (jumlahTerima === 0) {
-            statusCell.textContent = 'Pending';
-            statusCell.className = 'status-badge status-pending';
-        } else if (selisih === 0) {
-            statusCell.textContent = 'Sesuai';
-            statusCell.className = 'status-badge status-received';
-        } else {
-            statusCell.textContent = selisih > 0 ? 'Lebih' : 'Kurang';
-            statusCell.className = 'status-badge status-pending';
-        }
-
-        // Color code selisih
-        if (selisih > 0) {
-            selisihCell.style.color = '#dc2626';
-        } else if (selisih < 0) {
-            selisihCell.style.color = '#ea580c';
-        } else {
-            selisihCell.style.color = '#059669';
-        }
-    });
-});
-</script>
-@endsection --}}
-
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <h2 class="mb-4">Daftar Barang Masuk</h2>
-
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>No Penerimaan</th>
-                <th>No Bukti</th>
-                <th>Supplier ID</th>
-                <th>Kode Supplier</th>
-                <th>Nama Supplier</th>
-                <th>Gudang</th>
-                <th>Tanggal Terima</th>
-                <th>Surat Jalan</th>
-                <th>Status</th>
-                <th>Keterangan</th>
-                <th>Tanggal Input</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($barangMasuk as $bm)
+<div class="content-card">
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
                 <tr>
-                    <td>{{ $bm->no_penerimaan }}</td>
-                    <td>{{ $bm->no_bukti }}</td>
-                    <td>{{ $bm->supplier_id }}</td>
-                    <td>{{ $bm->kode_supplier }}</td>
-                    <td>{{ $bm->nama_supplier }}</td>
-                    <td>{{ $bm->gudang }}</td>
-                    <td>{{ \Carbon\Carbon::parse($bm->tanggal_terima)->format('d-m-Y') }}</td>
-                    <td>{{ $bm->surat_jalan ?? '-' }}</td>
-                    <td>
-                        @if($bm->status == 'PENDING')
-                            <span class="badge bg-warning text-dark">Pending</span>
-                        @elseif($bm->status == 'DITERIMA')
-                            <span class="badge bg-success">Diterima</span>
-                        @else
-                            <span class="badge bg-secondary">Selesai</span>
-                        @endif
-                    </td>
-                    <td>{{ $bm->keterangan ?? '-' }}</td>
-                    <td>{{ $bm->created_at->format('d-m-Y H:i') }}</td>
+                    <th>No Bukti</th>
+                    <th>Supplier</th>
+                    <th>Gudang</th>
+                    <th>Tgl Terima</th>
+                    <th>Surat Jalan</th>
+                    <th>Status</th>
+                    <th>Item</th>
+                    <th>Keterangan</th>
+                    <th>Tgl Input</th>
+                    <th>Aksi</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="11" class="text-center">Belum ada data barang masuk</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse($barangMasuk as $bm)
+                    <tr>
+                        <td>
+                            <span class="no-bukti">{{ $bm->no_bukti }}</span>
+                        </td>
+                        <td>
+                            <div>
+                                <span class="supplier-code">{{ $bm->supplier->kode_supplier ?? '-' }}</span>
+                            </div>
+                            <div style="font-weight: 600; color: #1a1a1a; margin-top: 0.25rem;">
+                                {{ $bm->supplier->nama ?? '-' }}
+                            </div>
+                        </td>
+                        <td>{{ $bm->gudang ?? '-' }}</td>
+                        <td class="date-cell">
+                            {{ \Carbon\Carbon::parse($bm->tanggal_terima)->format('d M Y') }}
+                        </td>
+                        <td>{{ $bm->surat_jalan ?? '-' }}</td>
+                        <td>
+                            @if($bm->status == 'DITERIMA')
+                                <span class="badge badge-success">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Diterima
+                                </span>
+                            @elseif($bm->status == 'BARANG KURANG')
+                                <span class="badge badge-warning">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>
+                                    Barang Kurang
+                                </span>
+                            @elseif($bm->status == 'BELUM DITERIMA')
+                                <span class="badge badge-secondary">
+                                    <i class="bi bi-clock me-1"></i>
+                                    Belum Diterima
+                                </span>
+                            @else
+                                <span class="badge badge-secondary">-</span>
+                            @endif
+                        </td>
+                        <td>
+                            <ul class="item-list">
+                                @foreach($bm->details as $detail)
+                                    <li>
+                                        <span class="item-name">{{ $detail->nama_barang }}</span>
+                                        <span class="item-quantity">
+                                            <span class="qty-label">Order:</span> {{ $detail->jumlah_order }} |
+                                            <span class="qty-label">Terima:</span> {{ $detail->jumlah_terima }}
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </td>
+                        <td>{{ $bm->keterangan ?? '-' }}</td>
+                        <td class="date-cell">
+                            {{ $bm->created_at->format('d M Y') }}
+                            <div style="color: #9ca3af; font-size: 0.75rem;">
+                                {{ $bm->created_at->format('H:i') }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{{ route('barang-masuk.edit', $bm->id) }}" class="btn-action btn-edit">
+                                    <i class="bi bi-pencil"></i>
+                                    Edit
+                                </a>
+                                <a href="{{ route('barang-masuk.cetak', $bm->id) }}"
+                                   class="btn-action btn-print"
+                                   target="_blank">
+                                    <i class="bi bi-printer"></i>
+                                    Cetak
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="10">
+                            <div class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <div class="empty-state-title">Belum ada data barang masuk</div>
+                                <div class="empty-state-text">Klik tombol "Tambah Barang Masuk" untuk menambahkan data baru</div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection
-
