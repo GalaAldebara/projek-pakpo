@@ -153,10 +153,8 @@ class OrderPembelianController extends Controller
         $excludedNoBukti = DB::table('barang_masuk')
             ->whereIn('status', ['BARANG KURANG', 'DITERIMA'])
             ->pluck('no_bukti')
-            ->filter() // buang null
             ->toArray();
 
-        // Query utama tanpa groupBy (tidak dibutuhkan, bikin error di MySQL strict mode)
         $pesanan = DB::table('order_pembelian')
             ->join('suppliers', 'suppliers.id', '=', 'order_pembelian.supplier_id')
             ->select(
@@ -168,16 +166,22 @@ class OrderPembelianController extends Controller
                 'order_pembelian.created_at'
             )
             ->where('order_pembelian.status', 'PROSES')
-            ->when(!empty($excludedNoBukti), function ($query) use ($excludedNoBukti) {
-                $query->whereNotIn('order_pembelian.no_bukti', $excludedNoBukti);
-            })
-            ->distinct() // biar tetap unik per no_bukti
+            ->whereNotIn('order_pembelian.no_bukti', $excludedNoBukti)
+            ->groupBy(
+                'order_pembelian.no_bukti',
+                'order_pembelian.supplier_id',
+                'suppliers.nama',
+                'suppliers.kode_supplier',
+                'order_pembelian.status',
+                'order_pembelian.created_at'
+            )
             ->orderBy('order_pembelian.created_at', 'desc')
             ->get();
 
         return response()->json([
             'success' => true,
             'pesanan' => $pesanan,
+            // 'excluded_count' => count($excludedNoBukti) // Optional: untuk tau berapa yang di-exclude
         ]);
     }
 }

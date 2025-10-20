@@ -812,7 +812,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadPOData() {
         const tbody = document.querySelector("#po-table tbody");
 
-        fetch("{{ url('/transaksi') }}")
+        fetch("{{ route('transaksi.index') }}")
             .then(res => {
                 if (!res.ok) throw new Error('Network error');
                 return res.json();
@@ -873,55 +873,76 @@ document.addEventListener("DOMContentLoaded", function () {
         renderPOTable(filteredData);
     });
 
-    document.addEventListener("click", function(e) {
-        if (e.target.closest(".btn-select-po")) {
-            const btn = e.target.closest(".btn-select-po");
-            document.getElementById("no_bukti").value = btn.dataset.no_bukti;
-            document.getElementById("supplier_id").value = btn.dataset.supplier_id;
-            document.getElementById("kode_supplier").value = btn.dataset.kode_supplier;
-            document.getElementById("nama_supplier").value = btn.dataset.nama_supplier;
+// Pilih PO
+document.addEventListener("click", function(e) {
+    if (e.target.closest(".btn-select-po")) {
+        const btn = e.target.closest(".btn-select-po");
 
-            document.getElementById("no_bukti").classList.remove('error');
-            document.getElementById("error-no_bukti").style.display = 'none';
+        // Set header data
+        document.getElementById("no_bukti").value = btn.dataset.no_bukti;
+        document.getElementById("supplier_id").value = btn.dataset.supplier_id;
+        document.getElementById("kode_supplier").value = btn.dataset.kode_supplier;
+        document.getElementById("nama_supplier").value = btn.dataset.nama_supplier;
 
-            const noBukti = btn.dataset.no_bukti;
-            if (noBukti) {
-                fetch("{{ url('/barang-masuk/transaksi') }}/" + encodeURIComponent(noBukti))
-                    .then(res => {
-                        if (!res.ok) throw new Error('Network error');
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.success && data.barang) {
-                            const tbody = document.querySelector("#detail-table tbody");
-                            tbody.innerHTML = "";
-                            data.barang.forEach((barang, idx) => {
-                                const row = document.createElement("tr");
-                                row.innerHTML = `
-                                    <td><input type="text" name="detail[${idx}][kode_barang]" value="${barang.kode || ''}" readonly></td>
-                                    <td><input type="text" name="detail[${idx}][nama_barang]" value="${barang.nama || ''}" readonly></td>
-                                    <td><input type="number" step="0.01" name="detail[${idx}][jumlah_order]" value="${barang.jumlah || 0}" class="jumlah-order" readonly data-max="${barang.jumlah || 0}"></td>
-                                    <td><input type="number" step="0.01" name="detail[${idx}][jumlah_terima]" value="0" class="jumlah-terima" required min="0.01" max="${barang.jumlah || 0}" data-max="${barang.jumlah || 0}"></td>
-                                    <td><input type="text" name="detail[${idx}][satuan]" value="${barang.satuan || ''}" readonly></td>
-                                    <td><input type="date" name="detail[${idx}][tgl_kirim]" value="${today}" required></td>
-                                    <td style="text-align: center;"><button type="button" class="btn-remove remove-row">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
-                                `;
-                                tbody.appendChild(row);
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error memuat detail barang: ' + error.message);
+        document.getElementById("no_bukti").classList.remove('error');
+        document.getElementById("error-no_bukti").style.display = 'none';
+
+        const noBukti = btn.dataset.no_bukti;
+
+        if (noBukti) {
+            // ✅ Gunakan named route dengan parameter
+            const detailUrl = "{{ route('barang-masuk.detail', ':no_bukti') }}".replace(':no_bukti', encodeURIComponent(noBukti));
+
+            console.log('Fetching detail from:', detailUrl);
+
+            fetch(detailUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
+            .then(data => {
+                console.log('Detail data:', data);
+
+                if (data.success && data.barang) {
+                    const tbody = document.querySelector("#detail-table tbody");
+                    tbody.innerHTML = "";
+
+                    data.barang.forEach((barang, idx) => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td><input type="text" name="detail[${idx}][kode_barang]" value="${barang.kode || ''}" readonly></td>
+                            <td><input type="text" name="detail[${idx}][nama_barang]" value="${barang.nama || ''}" readonly></td>
+                            <td><input type="number" step="0.01" name="detail[${idx}][jumlah_order]" value="${barang.jumlah || 0}" class="jumlah-order" readonly data-max="${barang.jumlah || 0}"></td>
+                            <td><input type="number" step="0.01" name="detail[${idx}][jumlah_terima]" value="0" class="jumlah-terima" required min="0.01" max="${barang.jumlah || 0}" data-max="${barang.jumlah || 0}"></td>
+                            <td><input type="text" name="detail[${idx}][satuan]" value="${barang.satuan || ''}" readonly></td>
+                            <td><input type="date" name="detail[${idx}][tgl_kirim]" value="${today}" required></td>
+                            <td style="text-align: center;">
+                                <button type="button" class="btn-remove remove-row">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
                     });
-            }
-
-            closeModal();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error memuat detail barang: ' + error.message);
+            });
         }
-    });
+
+        closeModal();
+    }
+});
 
     let rowIndex = 100;
     document.getElementById('add-row').addEventListener('click', function () {

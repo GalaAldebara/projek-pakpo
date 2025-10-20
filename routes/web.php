@@ -41,9 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', OrderPembelianController::class);
 
     // Barang Masuk
-    Route::get('/transaksi', [OrderPembelianController::class, 'getTransaksi']);
+    Route::get('/transaksi', [OrderPembelianController::class, 'getTransaksi'])->name('transaksi.index');
     Route::get('/barang-masuk/transaksi', [BarangMasukController::class, 'getTransaksiPO']);
-    Route::get('/barang-masuk/transaksi/{no_bukti}', [BarangMasukController::class, 'getDetailBarang']);
+    Route::get('/barang-masuk/transaksi/{no_bukti}', [BarangMasukController::class, 'getDetailBarang'])->name('barang-masuk.detail');
     Route::resource('barang-masuk', BarangMasukController::class);
     Route::get('/barang-masuk/create', [BarangMasukController::class, 'create'])->name('barang-masuk.create');
     Route::post('/barang-masuk', [BarangMasukController::class, 'store'])->name('barang-masuk.store');
