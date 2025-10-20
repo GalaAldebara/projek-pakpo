@@ -17,14 +17,16 @@ nixPkgs = [
 [phases.install]
 cmds = [
     'composer install --optimize-autoloader --no-scripts --no-interaction',
-    'npm ci'
+    'npm ci --prefer-offline --no-audit'
 ]
 
 [phases.build]
 cmds = [
     'npm run build',
-    'composer install --optimize-autoloader --no-dev',
+    'composer install --optimize-autoloader --no-dev --no-scripts',
     'npm prune --omit=dev',
+    'rm -rf node_modules/.cache',
+    'rm -rf .npm',
     'php artisan config:cache',
     'php artisan route:cache',
     'php artisan view:cache'
@@ -32,3 +34,4 @@ cmds = [
 
 [start]
 cmd = 'php artisan serve --host=0.0.0.0 --port=$PORT'
+
