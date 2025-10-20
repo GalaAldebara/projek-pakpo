@@ -19,8 +19,13 @@ use App\Http\Controllers\BarangMasukController;
 
 // Default halaman
 Route::get('/', function () {
-    return redirect()->route('login'); // langsung arahkan ke login
+    return redirect()->route('dashboard'); // langsung arahkan ke login
 });
+
+Route::get('/dashboard', [MenuController::class, 'index'])
+    ->name('dashboard')
+    ->middleware('auth');
+
 
 // Authentication
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');

@@ -1,374 +1,691 @@
 @extends('layouts.app')
 
-@push('styles')
-<style>
-    /* Tailwind utilities yang dibutuhkan */
-    .min-h-screen { min-height: 100vh; }
-    .bg-gray-50 { background-color: #f9fafb; }
-    .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
-    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
-
-    .mb-6 { margin-bottom: 1.5rem; }
-    .mb-4 { margin-bottom: 1rem; }
-    .mb-3 { margin-bottom: 0.75rem; }
-    .mb-2 { margin-bottom: 0.5rem; }
-    .mb-1 { margin-bottom: 0.25rem; }
-    .ml-2 { margin-left: 0.5rem; }
-    .mr-1 { margin-right: 0.25rem; }
-    .mr-2 { margin-right: 0.5rem; }
-    .mt-4 { margin-top: 1rem; }
-
-    .mx-auto { margin-left: auto; margin-right: auto; }
-    .mx-4 { margin-left: 1rem; margin-right: 1rem; }
-
-    .max-w-7xl { max-width: 80rem; }
-    .max-w-2xl { max-width: 42rem; }
-    .max-h-96 { max-height: 24rem; }
-    .max-h-\[80vh\] { max-height: 80vh; }
-
-    .container { width: 100%; }
-    @media (min-width: 640px) { .container { max-width: 640px; } }
-    @media (min-width: 768px) { .container { max-width: 768px; } }
-    @media (min-width: 1024px) { .container { max-width: 1024px; } }
-    @media (min-width: 1280px) { .container { max-width: 1280px; } }
-
-    .flex { display: flex; }
-    .grid { display: grid; }
-    .hidden { display: none; }
-    .block { display: block; }
-
-    .items-center { align-items: center; }
-    .items-start { align-items: flex-start; }
-    .justify-between { justify-content: space-between; }
-    .justify-center { justify-content: center; }
-
-    .space-x-3 > * + * { margin-left: 0.75rem; }
-    .space-x-4 > * + * { margin-left: 1rem; }
-
-    .gap-4 { gap: 1rem; }
-    .gap-6 { gap: 1.5rem; }
-    .gap-8 { gap: 2rem; }
-
-    .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-
-    .col-span-1 { grid-column: span 1 / span 1; }
-    .col-span-2 { grid-column: span 2 / span 2; }
-    .col-span-3 { grid-column: span 3 / span 3; }
-
-    .bg-white { background-color: #ffffff; }
-    .bg-gray-50 { background-color: #f9fafb; }
-
-    .text-gray-900 { color: #111827; }
-    .text-gray-700 { color: #374151; }
-    .text-gray-600 { color: #4b5563; }
-    .text-gray-500 { color: #6b7280; }
-    .text-gray-400 { color: #9ca3af; }
-    .text-gray-300 { color: #d1d5db; }
-    .text-blue-600 { color: #2563eb; }
-    .text-blue-700 { color: #1d4ed8; }
-    .text-red-600 { color: #dc2626; }
-    .text-red-700 { color: #b91c1c; }
-    .text-green-600 { color: #16a34a; }
-    .text-orange-600 { color: #ea580c; }
-
-    .text-xs { font-size: 0.75rem; line-height: 1rem; }
-    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-
-    .font-medium { font-weight: 500; }
-    .font-semibold { font-weight: 600; }
-    .font-bold { font-weight: 700; }
-
-    .uppercase { text-transform: uppercase; }
-    .text-center { text-align: center; }
-
-    .border { border-width: 1px; }
-    .border-b { border-bottom-width: 1px; }
-    .border-t { border-top-width: 1px; }
-    .border-gray-100 { border-color: #f3f4f6; }
-    .border-gray-200 { border-color: #e5e7eb; }
-    .border-gray-300 { border-color: #d1d5db; }
-    .border-blue-600 { border-color: #2563eb; }
-
-    .rounded { border-radius: 0.25rem; }
-    .rounded-md { border-radius: 0.375rem; }
-    .rounded-lg { border-radius: 0.5rem; }
-
-    .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
-    .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
-
-    .overflow-hidden { overflow: hidden; }
-    .overflow-y-auto { overflow-y: auto; }
-
-    .opacity-50 { opacity: 0.5; }
-    .pointer-events-none { pointer-events: none; }
-
-    .w-5 { width: 1.25rem; }
-    .w-20 { width: 5rem; }
-    .w-full { width: 100%; }
-    .h-5 { height: 1.25rem; }
-
-    .fixed { position: fixed; }
-    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-    .z-50 { z-index: 50; }
-
-    .cursor-pointer { cursor: pointer; }
-
-    .transition { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-    .transition-colors { transition-property: color, background-color, border-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-    .duration-200 { transition-duration: 200ms; }
-
-    .hover\:text-blue-700:hover { color: #1d4ed8; }
-    .hover\:text-blue-600:hover { color: #2563eb; }
-    .hover\:text-red-700:hover { color: #b91c1c; }
-    .hover\:text-gray-600:hover { color: #4b5563; }
-    .hover\:bg-blue-600:hover { background-color: #2563eb; }
-    .hover\:bg-blue-700:hover { background-color: #1d4ed8; }
-    .hover\:bg-gray-50:hover { background-color: #f9fafb; }
-    .hover\:text-white:hover { color: #ffffff; }
-    .hover\:border-blue-400:hover { border-color: #60a5fa; }
-
-    .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
-    .focus\:ring-1:focus { box-shadow: 0 0 0 1px; }
-    .focus\:ring-blue-500:focus { --tw-ring-color: #3b82f6; box-shadow: 0 0 0 1px var(--tw-ring-color); }
-
-    .divide-y > * + * { border-top-width: 1px; }
-    .divide-gray-200 > * + * { border-color: #e5e7eb; }
-
-    .bg-black\/30 { background-color: rgba(0, 0, 0, 0.3); }
-</style>
-@endpush
-
 @section('content')
-<div class="min-h-screen bg-gray-50 py-6">
-    <div class="container mx-auto px-6 max-w-7xl">
+<style>
+    .page-header {
+        margin-bottom: 1rem;
+    }
 
-        <!-- Header -->
-        <div class="mb-6 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <a href="{{ route('orders.index') }}" class="text-blue-600 hover:text-blue-700 flex items-center text-sm font-medium">
-                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                    Back
-                </a>
-                <span class="text-gray-300">|</span>
-                <h1 class="text-lg text-gray-700 font-medium">Create Purchase Order</h1>
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+    }
+
+    .breadcrumb-custom {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8125rem;
+        color: #6b7280;
+        margin-bottom: 0.75rem;
+    }
+
+    .breadcrumb-custom a {
+        color: #6366f1;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .breadcrumb-custom a:hover {
+        color: #4f46e5;
+    }
+
+    .form-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        padding: 0.875rem 1.25rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .supplier-section {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .supplier-name {
+        font-weight: 600;
+        color: #1a1a1a;
+        font-size: 0.9375rem;
+    }
+
+    .btn-select-supplier {
+        background: #6366f1;
+        color: white;
+        border: none;
+        padding: 0.375rem 0.875rem;
+        border-radius: 6px;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-select-supplier:hover {
+        background: #4f46e5;
+    }
+
+    .payment-options {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .radio-label {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.8125rem;
+        color: #374151;
+        cursor: pointer;
+    }
+
+    .credit-days {
+        width: 70px;
+        padding: 0.375rem 0.5rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 4px;
+        font-size: 0.8125rem;
+    }
+
+    .credit-days:focus {
+        outline: none;
+        border-color: #6366f1;
+    }
+
+    .table-container {
+        padding: 1rem 1.25rem;
+    }
+
+    .table-header-row {
+        display: grid;
+        grid-template-columns: 100px 1fr 80px 80px 120px 130px 60px;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 0.75rem;
+    }
+
+    .item-row {
+        display: grid;
+        grid-template-columns: 100px 1fr 80px 80px 120px 130px 60px;
+        gap: 0.75rem;
+        align-items: center;
+        padding: 0.625rem 0;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .item-row:last-child {
+        border-bottom: none;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.5rem 0.625rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        font-size: 0.8125rem;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-control:read-only {
+        background: #f9fafb;
+        color: #6b7280;
+        cursor: not-allowed;
+    }
+
+    .form-control.clickable {
+        cursor: pointer;
+        background: #ffffff;
+    }
+
+    .form-control.clickable:hover {
+        border-color: #6366f1;
+    }
+
+    .btn-remove {
+        background: #fee2e2;
+        color: #dc2626;
+        border: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-remove:hover {
+        background: #fecaca;
+    }
+
+    .btn-add-item {
+        background: #10b981;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        margin-top: 0.75rem;
+    }
+
+    .btn-add-item:hover {
+        background: #059669;
+    }
+
+    .finance-section {
+        padding: 1rem 1.25rem;
+        background: #f9fafb;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .finance-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .finance-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+    }
+
+    .finance-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+    }
+
+    .summary-section {
+        padding: 1rem 1.25rem;
+        background: #f8f9fa;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .summary-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .summary-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .summary-label {
+        font-size: 0.75rem;
+        color: #6b7280;
+    }
+
+    .summary-value {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .summary-value.discount {
+        color: #dc2626;
+    }
+
+    .summary-value.ppn {
+        color: #10b981;
+    }
+
+    .summary-value.pph {
+        color: #f59e0b;
+    }
+
+    .summary-value.grand-total {
+        font-size: 1.125rem;
+        font-weight: 700;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .btn-action {
+        padding: 0.625rem 1.25rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+
+    .btn-secondary {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .btn-secondary:hover {
+        background: #e5e7eb;
+    }
+
+    .btn-primary {
+        background: #6366f1;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #4f46e5;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 1rem;
+    }
+
+    .modal-overlay.show {
+        display: flex;
+    }
+
+    .modal-container {
+        background: white;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 700px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .modal-close {
+        background: transparent;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        padding: 0;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .modal-body {
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .modal-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+    }
+
+    .modal-table thead {
+        background: #f8f9fa;
+        position: sticky;
+        top: 0;
+    }
+
+    .modal-table th {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .modal-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        color: #374151;
+    }
+
+    .modal-table tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    .btn-select {
+        background: #6366f1;
+        color: white;
+        border: none;
+        padding: 0.375rem 0.875rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-select:hover {
+        background: #4f46e5;
+    }
+
+    .disabled-section {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    @media (max-width: 1024px) {
+        .table-header-row,
+        .item-row {
+            grid-template-columns: 80px 1fr 70px 70px 100px 110px 50px;
+            gap: 0.5rem;
+        }
+
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .finance-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .table-header-row,
+        .item-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .summary-content {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .action-buttons {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .btn-action {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .finance-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card-header {
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<div class="page-header">
+    <div class="breadcrumb-custom">
+        <a href="{{ route('orders.index') }}">
+            <i class="bi bi-arrow-left"></i>
+            Kembali
+        </a>
+        <i class="bi bi-chevron-right"></i>
+        <span>Buat Purchase Order</span>
+    </div>
+    <h1 class="page-title">Buat Purchase Order</h1>
+</div>
+
+<form action="{{ route('orders.store') }}" method="POST" id="formPO">
+    @csrf
+    <input type="hidden" name="supplier_id" id="supplier_id">
+
+    <!-- Main Card -->
+    <div class="form-card">
+        <!-- Supplier Header -->
+        <div class="card-header">
+            <div class="supplier-section">
+                <span class="supplier-name" id="supplier_name_display">Pilih Supplier</span>
+                <button type="button" id="btnCariSupplier" class="btn-select-supplier">
+                    <i class="bi bi-search"></i>
+                    Pilih Supplier
+                </button>
+            </div>
+
+            <div class="payment-options">
+                <label class="radio-label">
+                    <input type="radio" name="is_kredit" value="CASH" id="cash" checked>
+                    Cash
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="is_kredit" value="KREDIT" id="kredit">
+                    Kredit
+                </label>
+                <div id="hari_kredit_wrapper" style="display: none;">
+                    <input type="number" name="hari_kredit" id="hari_kredit" min="1" value="30"
+                           class="credit-days" placeholder="Hari">
+                </div>
             </div>
         </div>
 
-        <form action="{{ route('orders.store') }}" method="POST">
-            @csrf
-            <input type="hidden" name="supplier_id" id="supplier_id">
-
-            <!-- Main Card -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-4">
-
-                <!-- Supplier Header -->
-                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <button type="button" class="text-gray-400 hover:text-gray-600">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-<div class="flex items-center">
-    <span class="text-gray-900 font-medium" id="supplier_name_display">Supplier</span>
-    <button type="button" id="btnCariSupplier"
-        class="ml-2 px-3 py-1 border border-blue-600 text-blue-600 rounded-md text-sm hover:bg-blue-600 hover:text-white transition duration-200">
-        Pilih
-    </button>
-</div>
-
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <label class="flex items-center text-sm text-gray-600">
-                            <input type="radio" name="is_kredit" value="CASH" id="cash" class="mr-2" checked>
-                            Cash
-                        </label>
-                        <label class="flex items-center text-sm text-gray-600">
-                            <input type="radio" name="is_kredit" value="KREDIT" id="kredit" class="mr-2">
-                            Credit
-                        </label>
-                        <div id="hari_kredit_wrapper" class="hidden">
-                            <input type="number" name="hari_kredit" id="hari_kredit" min="1" value="30"
-                                   class="w-20 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                   placeholder="Days">
-                        </div>
-                    </div>
+        <!-- Product Section -->
+        <div id="order-fields" class="disabled-section">
+            <div class="table-container">
+                <div class="table-header-row">
+                    <div>SKU</div>
+                    <div>Nama Item</div>
+                    <div>Jumlah</div>
+                    <div>Satuan</div>
+                    <div>Harga</div>
+                    <div>Tgl Kirim</div>
+                    <div style="text-align: center;">Aksi</div>
                 </div>
 
-                <!-- Product Section -->
-                <div id="order-fields" class="opacity-50 pointer-events-none">
-                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm text-gray-600">Product Details</span>
+                <div id="item-container">
+                    <!-- Default item row -->
+                    <div class="item-row">
+                        <div>
+                            <input type="text" class="form-control clickable sku_display" placeholder="Pilih SKU..." readonly>
+                            <input type="hidden" name="item_id[]" class="item_id">
                         </div>
-                    </div>
-
-                    <!-- Product Row -->
-                    <div class="px-6 py-4">
-                        <div class="grid grid-cols-12 gap-4 text-xs text-gray-500 uppercase font-medium mb-3">
-                            <div class="col-span-2">SKU</div>
-                            <div class="col-span-3">Nama Item</div>
-                            <div class="col-span-1">Jumlah</div>
-                            <div class="col-span-1">Satuan</div>
-                            <div class="col-span-2">Harga Item</div>
-                            <div class="col-span-2">Tanggal Kirim</div>
-                            <div class="col-span-1 text-center">Aksi</div>
+                        <div>
+                            <input type="text" class="form-control nama_item" readonly>
                         </div>
-
-                        <div id="item-container">
-                            <!-- Default item row -->
-                            <div class="item-row grid grid-cols-12 gap-4 items-center py-3 border-t border-gray-100">
-                                <div class="col-span-2">
-                                    <input type="text"
-                                           class="sku_display w-full px-3 py-2 text-sm border border-gray-300 rounded hover:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
-                                           placeholder="Klik Pilih..." readonly>
-                                    <input type="hidden" name="item_id[]" class="item_id">
-                                </div>
-                                <div class="col-span-3">
-                                    <input type="text"
-                                           class="nama_item w-full px-3 py-2 text-sm border border-gray-300 rounded bg-gray-50 focus:outline-none" readonly>
-                                </div>
-                                <div class="col-span-1">
-                                    <input type="number" name="jumlah[]" min="1"
-                                           class="jumlah w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
-                                </div>
-                                <div class="col-span-1">
-                                    <input type="text"
-                                           class="satuan_display w-full px-3 py-2 text-sm border border-gray-300 rounded bg-gray-50 focus:outline-none" readonly>
-                                    <input type="hidden" name="satuan_id[]" class="satuan_id">
-                                </div>
-                                <div class="col-span-2">
-                                    <input type="number" name="harga[]" step="0.01"
-                                           class="harga w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
-                                </div>
-                                <div class="col-span-2">
-                                    <input type="date" name="tgl_kirim[]"
-                                           class="tgl_kirim w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
-                                </div>
-                                <div class="col-span-1 text-center">
-                                    <button type="button" class="btn-remove-item text-red-600 hover:text-red-700 font-bold text-lg">✕</button>
-                                </div>
-                            </div>
+                        <div>
+                            <input type="number" name="jumlah[]" class="form-control jumlah" min="1" placeholder="0">
                         </div>
-
-                        <!-- Tombol tambah baris -->
-                        <div class="mt-4">
-                            <button type="button" id="add-item-row"
-                                class="px-4 py-2 rounded text-white text-sm font-medium"
-                                style="background-color: #6366f1; hover:background-color: #4f46e5;">
-                                ➕ Tambah Item
+                        <div>
+                            <input type="text" class="form-control satuan_display" readonly>
+                            <input type="hidden" name="satuan_id[]" class="satuan_id">
+                        </div>
+                        <div>
+                            <input type="number" name="harga[]" class="form-control harga" step="0.01" placeholder="0">
+                        </div>
+                        <div>
+                            <input type="date" name="tgl_kirim[]" class="form-control tgl_kirim">
+                        </div>
+                        <div style="text-align: center;">
+                            <button type="button" class="btn-remove btn-remove-item">
+                                <i class="bi bi-x"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Financial Section -->
-                <div id="finance-fields" class="px-6 py-4 border-t border-gray-200 opacity-50 pointer-events-none">
-                    <div class="grid grid-cols-4 gap-6">
-                        <div>
-                            <label class="block text-xs text-gray-600 mb-2">Discount (%)</label>
-                            <input type="number" name="discount" id="discount" min="0" max="100" step="0.01"
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                   placeholder="0" disabled>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-600 mb-2">PPN (%)</label>
-                            <input type="number" name="ppn" id="ppn" min="0" max="100" step="0.01"
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                   placeholder="0" disabled>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-600 mb-2">PPH (%)</label>
-                            <input type="number" name="pph" id="pph" min="0" max="100" step="0.01"
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                   placeholder="0" disabled>
-                        </div>
-                    </div>
-                </div>
+                <button type="button" id="add-item-row" class="btn-add-item">
+                    <i class="bi bi-plus-circle"></i>
+                    Tambah Item
+                </button>
+            </div>
+        </div>
 
-                <!-- Summary Footer -->
-                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                    <div class="flex justify-between items-start">
-                        <div class="grid grid-cols-3 gap-8">
-                            <div>
-                                <div class="text-xs text-gray-500 mb-1">Subtotal</div>
-                                <div id="summarySubtotal" class="text-sm font-semibold text-gray-900">Rp 0</div>
-                            </div>
-                            <div>
-                                <div class="text-xs text-gray-500 mb-1">Discount</div>
-                                <div id="summaryDiscount" class="text-sm font-semibold text-red-600">Rp 0</div>
-                            </div>
-                            <div>
-                                <div class="text-xs text-gray-500 mb-1">After Discount</div>
-                                <div id="summaryAfterDiscount" class="text-sm font-semibold text-gray-900">Rp 0</div>
-                            </div>
-                            <div>
-                                <div class="text-xs text-gray-500 mb-1">PPN</div>
-                                <div id="summaryPPN" class="text-sm font-semibold text-green-600">Rp 0</div>
-                            </div>
-                            <div>
-                                <div class="text-xs text-gray-500 mb-1">PPH</div>
-                                <div id="summaryPPH" class="text-sm font-semibold text-orange-600">Rp 0</div>
-                            </div>
-                            <div>
-                                <div class="text-xs text-gray-500 mb-1">Grand Total</div>
-                                <div id="summaryGrandTotal" class="text-lg font-bold text-gray-900">Rp 0</div>
-                            </div>
-                        </div>
-                        <div class="flex space-x-3">
-                            <a href="{{ route('orders.index') }}"
-                               class="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors">
-                                Batalkan
-                            </a>
-                            <button type="submit"
-                                    class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors">
-                                Buat PO
-                            </button>
-                        </div>
-                    </div>
+        <!-- Financial Section -->
+        <div id="finance-fields" class="finance-section disabled-section">
+            <div class="finance-grid">
+                <div class="finance-field">
+                    <label class="finance-label">Discount (%)</label>
+                    <input type="number" name="discount" id="discount" class="form-control"
+                           min="0" max="100" step="0.01" placeholder="0" disabled>
+                </div>
+                <div class="finance-field">
+                    <label class="finance-label">PPN (%)</label>
+                    <input type="number" name="ppn" id="ppn" class="form-control"
+                           min="0" max="100" step="0.01" placeholder="0" disabled>
+                </div>
+                <div class="finance-field">
+                    <label class="finance-label">PPH (%)</label>
+                    <input type="number" name="pph" id="pph" class="form-control"
+                           min="0" max="100" step="0.01" placeholder="0" disabled>
                 </div>
             </div>
+        </div>
 
-        </form>
+        <!-- Summary Footer -->
+        <div class="summary-section">
+            <div class="summary-content">
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-label">Subtotal</div>
+                        <div class="summary-value" id="summarySubtotal">Rp 0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Discount</div>
+                        <div class="summary-value discount" id="summaryDiscount">Rp 0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">After Discount</div>
+                        <div class="summary-value" id="summaryAfterDiscount">Rp 0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">PPN</div>
+                        <div class="summary-value ppn" id="summaryPPN">Rp 0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">PPH</div>
+                        <div class="summary-value pph" id="summaryPPH">Rp 0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Grand Total</div>
+                        <div class="summary-value grand-total" id="summaryGrandTotal">Rp 0</div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="{{ route('orders.index') }}" class="btn-action btn-secondary">
+                        <i class="bi bi-x-circle"></i>
+                        Batal
+                    </a>
+                    <button type="submit" class="btn-action btn-primary">
+                        <i class="bi bi-check-circle"></i>
+                        Buat PO
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</form>
 
 <!-- Modal Supplier -->
-<div id="modalSupplier" class="hidden fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-            <h3 class="text-lg font-medium text-gray-900">Pilih Supplier</h3>
-            <button type="button" id="closeModal" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+<div id="modalSupplier" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title">Pilih Supplier</h3>
+            <button type="button" id="closeModal" class="modal-close">
+                <i class="bi bi-x" style="font-size: 1.25rem;"></i>
             </button>
         </div>
-        <div class="overflow-y-auto max-h-96">
-            <table class="w-full">
-                <thead class="bg-gray-50 border-b border-gray-200">
+        <div class="modal-body">
+            <table class="modal-table">
+                <thead>
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kode</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                        <th>Kode</th>
+                        <th>Nama</th>
+                        <th style="text-align: center; width: 100px;">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody>
                 @foreach($suppliers as $supplier)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $supplier->kode_supplier }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $supplier->nama }}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button type="button" class="pilihSupplier px-4 py-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    <tr>
+                        <td style="font-family: monospace; font-weight: 600;">{{ $supplier->kode_supplier }}</td>
+                        <td>{{ $supplier->nama }}</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn-select pilihSupplier"
                                     data-id="{{ $supplier->id }}"
                                     data-kode="{{ $supplier->kode_supplier }}"
                                     data-nama="{{ $supplier->nama }}">
@@ -384,32 +701,30 @@
 </div>
 
 <!-- Modal SKU -->
-<div id="modalSKU" class="hidden fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-            <h3 class="text-lg font-medium text-gray-900">Pilih SKU</h3>
-            <button type="button" id="closeModalSKU" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+<div id="modalSKU" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title">Pilih SKU</h3>
+            <button type="button" id="closeModalSKU" class="modal-close">
+                <i class="bi bi-x" style="font-size: 1.25rem;"></i>
             </button>
         </div>
-        <div class="overflow-y-auto max-h-96">
-            <table class="w-full">
-                <thead class="bg-gray-50 border-b border-gray-200">
+        <div class="modal-body">
+            <table class="modal-table">
+                <thead>
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">SKU</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama Item</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                        <th>SKU</th>
+                        <th>Nama Item</th>
+                        <th style="text-align: center; width: 100px;">Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="skuListBody" class="divide-y divide-gray-200">
+                <tbody id="skuListBody">
                     @foreach($items as $item)
-                        <tr class="sku-row hidden hover:bg-gray-50" data-supplier="{{ $item->supplier_id }}">
-                            <td class="px-6 py-4 text-sm text-gray-900">{{ $item->sku }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">{{ $item->name }}</td>
-                            <td class="px-6 py-4 text-center">
-                                <button type="button" class="pilihSKU px-4 py-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium"
+                        <tr class="sku-row" style="display: none;" data-supplier="{{ $item->supplier_id }}">
+                            <td style="font-family: monospace; font-weight: 600;">{{ $item->sku }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td style="text-align: center;">
+                                <button type="button" class="btn-select pilihSKU"
                                         data-id="{{ $item->id }}"
                                         data-sku="{{ $item->sku }}"
                                         data-nama="{{ $item->name }}"
@@ -433,15 +748,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const financeFields = document.getElementById('finance-fields');
     const itemContainer = document.getElementById('item-container');
     const addItemBtn = document.getElementById('add-item-row');
-    let currentSKUInput = null; // Track which SKU input is being filled
+    let currentSKUInput = null;
 
     // Modal Supplier
     document.getElementById('btnCariSupplier').addEventListener('click', () => {
-        document.getElementById('modalSupplier').classList.remove('hidden');
+        document.getElementById('modalSupplier').classList.add('show');
     });
 
     document.getElementById('closeModal').addEventListener('click', () => {
-        document.getElementById('modalSupplier').classList.add('hidden');
+        document.getElementById('modalSupplier').classList.remove('show');
     });
 
     // Pilih Supplier
@@ -452,9 +767,9 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('supplier_name_display').textContent = this.dataset.nama;
 
             // Enable order fields
-            orderFields.classList.remove('opacity-50', 'pointer-events-none');
+            orderFields.classList.remove('disabled-section');
 
-            document.getElementById('modalSupplier').classList.add('hidden');
+            document.getElementById('modalSupplier').classList.remove('show');
         });
     });
 
@@ -472,17 +787,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            currentSKUInput = e.target; // Store reference to clicked input
+            currentSKUInput = e.target;
 
             skuRows.forEach(row => {
-                row.classList.toggle('hidden', row.dataset.supplier !== supplierId);
+                row.style.display = row.dataset.supplier === supplierId ? '' : 'none';
             });
-            modalSKU.classList.remove('hidden');
+            modalSKU.classList.add('show');
         }
     });
 
     closeModalSKU.addEventListener('click', () => {
-        modalSKU.classList.add('hidden');
+        modalSKU.classList.remove('show');
         currentSKUInput = null;
     });
 
@@ -493,14 +808,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const row = currentSKUInput.closest('.item-row');
 
-            // Fill the current row
             row.querySelector('.item_id').value = this.dataset.id;
             row.querySelector('.sku_display').value = this.dataset.sku;
             row.querySelector('.nama_item').value = this.dataset.nama;
             row.querySelector('.satuan_display').value = this.dataset.satuanNama;
             row.querySelector('.satuan_id').value = this.dataset.satuanId;
 
-            modalSKU.classList.add('hidden');
+            modalSKU.classList.remove('show');
             currentSKUInput = null;
 
             checkFinanceFields();
@@ -512,7 +826,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const firstRow = itemContainer.querySelector('.item-row');
         const newRow = firstRow.cloneNode(true);
 
-        // Clear all input values
         newRow.querySelectorAll('input').forEach(input => {
             input.value = '';
         });
@@ -522,7 +835,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Hapus item
     itemContainer.addEventListener('click', function (e) {
-        if (e.target.classList.contains('btn-remove-item')) {
+        if (e.target.closest('.btn-remove-item')) {
             const allRows = itemContainer.querySelectorAll('.item-row');
             if (allRows.length > 1) {
                 e.target.closest('.item-row').remove();
@@ -533,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Enable finance fields when at least one item is filled
+    // Enable finance fields
     function checkFinanceFields() {
         const allRows = itemContainer.querySelectorAll('.item-row');
         let hasValidItem = false;
@@ -550,12 +863,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (hasValidItem) {
-            financeFields.classList.remove('opacity-50', 'pointer-events-none');
+            financeFields.classList.remove('disabled-section');
             financeFields.querySelectorAll('input').forEach(el => el.disabled = false);
         }
     }
 
-    // Listen to changes in all item rows
+    // Listen to changes
     itemContainer.addEventListener('input', function(e) {
         if (e.target.matches('.jumlah, .harga, .tgl_kirim')) {
             checkFinanceFields();
@@ -569,7 +882,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const hariWrapper = document.getElementById('hari_kredit_wrapper');
 
     function toggleKredit() {
-        hariWrapper.classList.toggle('hidden', !kreditRadio.checked);
+        hariWrapper.style.display = kreditRadio.checked ? 'block' : 'none';
     }
 
     kreditRadio.addEventListener('change', toggleKredit);
@@ -612,6 +925,93 @@ document.addEventListener('DOMContentLoaded', function () {
     ['discount', 'ppn', 'pph'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener("input", hitungRingkasan);
+    });
+
+    // Close modals on outside click
+    document.getElementById('modalSupplier').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('show');
+        }
+    });
+
+    document.getElementById('modalSKU').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('show');
+            currentSKUInput = null;
+        }
+    });
+
+    // Form validation
+    document.getElementById('formPO').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        let hasError = false;
+        let errorMessages = [];
+
+        // Validasi supplier
+        const supplierId = document.getElementById('supplier_id').value;
+        if (!supplierId) {
+            hasError = true;
+            errorMessages.push('• Supplier wajib dipilih');
+        }
+
+        // Validasi items
+        const allRows = itemContainer.querySelectorAll('.item-row');
+        let hasValidItem = false;
+
+        allRows.forEach((row, index) => {
+            const itemId = row.querySelector('.item_id').value;
+            const jumlah = row.querySelector('.jumlah').value;
+            const harga = row.querySelector('.harga').value;
+            const tglKirim = row.querySelector('.tgl_kirim').value;
+
+            if (itemId || jumlah || harga || tglKirim) {
+                hasValidItem = true;
+
+                if (!itemId) {
+                    hasError = true;
+                    errorMessages.push(`• Baris ${index + 1}: SKU wajib dipilih`);
+                }
+                if (!jumlah || parseFloat(jumlah) <= 0) {
+                    hasError = true;
+                    errorMessages.push(`• Baris ${index + 1}: Jumlah harus lebih dari 0`);
+                }
+                if (!harga || parseFloat(harga) <= 0) {
+                    hasError = true;
+                    errorMessages.push(`• Baris ${index + 1}: Harga harus lebih dari 0`);
+                }
+                if (!tglKirim) {
+                    hasError = true;
+                    errorMessages.push(`• Baris ${index + 1}: Tanggal kirim wajib diisi`);
+                }
+            }
+        });
+
+        if (!hasValidItem) {
+            hasError = true;
+            errorMessages.push('• Minimal harus ada 1 item yang diisi lengkap');
+        }
+
+        // Validasi kredit
+        const isKredit = document.getElementById('kredit').checked;
+        const hariKredit = document.getElementById('hari_kredit').value;
+        if (isKredit && (!hariKredit || parseInt(hariKredit) <= 0)) {
+            hasError = true;
+            errorMessages.push('• Hari kredit wajib diisi untuk pembayaran kredit');
+        }
+
+        if (hasError) {
+            const errorMessage = '⚠️ VALIDASI GAGAL!\n\nPeriksa kembali data:\n\n' +
+                                errorMessages.join('\n') +
+                                '\n\nSilakan perbaiki data terlebih dahulu.';
+            alert(errorMessage);
+            return false;
+        }
+
+        // Konfirmasi
+        if (confirm('Apakah Anda yakin ingin membuat Purchase Order ini?')) {
+            this.submit();
+        }
     });
 });
 </script>
