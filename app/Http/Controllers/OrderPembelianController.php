@@ -16,14 +16,14 @@ class OrderPembelianController extends Controller
     {
         $orders = OrderPembelian::with('supplier', 'item', 'satuan')->latest()->get();
 
-        return view('orderpembelian.index', compact('orders'));
+        return view('OrderPembelian.index', compact('orders'));
     }
 
     public function create()
     {
         $suppliers = Supplier::all();
         $items = Item::with('satuan')->get();
-        return view('orderpembelian.create', compact('suppliers', 'items'));
+        return view('OrderPembelian.create', compact('suppliers', 'items'));
     }
 
     private function generateNoBukti($kodeSupplier)
