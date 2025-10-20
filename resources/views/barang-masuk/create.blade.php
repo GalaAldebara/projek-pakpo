@@ -3,11 +3,11 @@
 @section('content')
 <style>
     .page-header {
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
     }
 
     .page-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: #1a1a1a;
         margin-bottom: 0.5rem;
@@ -17,9 +17,9 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         color: #6b7280;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
     }
 
     .breadcrumb-custom a {
@@ -36,36 +36,37 @@
         background: #ffffff;
         border: 1px solid #e5e7eb;
         border-radius: 12px;
-        padding: 2rem;
+        padding: 1.25rem;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .section-title {
-        font-size: 1.125rem;
+        font-size: 1rem;
         font-weight: 600;
         color: #1a1a1a;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        padding-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
         border-bottom: 2px solid #f3f4f6;
     }
 
     .section-title i {
         color: #6366f1;
-        font-size: 1.25rem;
+        font-size: 1.125rem;
     }
 
     .alert-custom {
-        padding: 1rem 1.25rem;
+        padding: 0.75rem 1rem;
         border-radius: 8px;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         border: 1px solid;
         display: flex;
         align-items: flex-start;
-        gap: 0.75rem;
+        gap: 0.5rem;
+        font-size: 0.875rem;
     }
 
     .alert-success {
@@ -81,23 +82,15 @@
     }
 
     .alert-custom i {
-        font-size: 1.25rem;
+        font-size: 1.125rem;
         flex-shrink: 0;
-    }
-
-    .alert-success i {
-        color: #10b981;
-    }
-
-    .alert-error i {
-        color: #dc2626;
     }
 
     .form-row {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 0;
     }
 
     .form-group {
@@ -106,29 +99,29 @@
 
     .form-label {
         display: block;
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         font-weight: 600;
         color: #374151;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.375rem;
     }
 
     .form-label .required {
         color: #dc2626;
-        margin-left: 0.25rem;
+        margin-left: 0.125rem;
     }
 
     .form-label .optional {
         color: #9ca3af;
         font-weight: 400;
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
     }
 
     .form-control-custom {
         width: 100%;
-        padding: 0.75rem 1rem;
+        padding: 0.5rem 0.75rem;
         border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        font-size: 0.9375rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
         transition: all 0.2s ease;
         background: #ffffff;
     }
@@ -136,7 +129,7 @@
     .form-control-custom:focus {
         outline: none;
         border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
     }
 
     .form-control-custom:read-only {
@@ -151,7 +144,7 @@
 
     .input-group {
         display: flex;
-        gap: 0.75rem;
+        gap: 0.5rem;
     }
 
     .input-group .form-control-custom {
@@ -162,22 +155,21 @@
         background: #6366f1;
         color: white;
         border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.8125rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.375rem;
         white-space: nowrap;
     }
 
     .btn-search:hover {
         background: #4f46e5;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
 
     .table-container {
@@ -185,40 +177,40 @@
         border: 1px solid #e5e7eb;
         border-radius: 12px;
         overflow: hidden;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .table-header {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         color: white;
-        padding: 1rem 1.5rem;
+        padding: 0.75rem 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
     .table-header h3 {
-        font-size: 1.125rem;
+        font-size: 1rem;
         font-weight: 600;
         margin: 0;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.375rem;
     }
 
     .btn-add-row {
         background: white;
         color: #10b981;
         border: none;
-        padding: 0.5rem 1rem;
+        padding: 0.375rem 0.75rem;
         border-radius: 6px;
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: 0.25rem;
     }
 
     .btn-add-row:hover {
@@ -232,6 +224,7 @@
     .detail-table {
         width: 100%;
         border-collapse: collapse;
+        font-size: 0.8125rem;
     }
 
     .detail-table thead {
@@ -239,19 +232,19 @@
     }
 
     .detail-table th {
-        padding: 0.875rem 1rem;
+        padding: 0.625rem 0.75rem;
         text-align: left;
         font-weight: 600;
         color: #1a1a1a;
         border-bottom: 2px solid #e5e7eb;
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.025em;
         white-space: nowrap;
     }
 
     .detail-table td {
-        padding: 0.875rem 1rem;
+        padding: 0.5rem 0.75rem;
         border-bottom: 1px solid #e5e7eb;
     }
 
@@ -261,10 +254,10 @@
 
     .detail-table input {
         width: 100%;
-        padding: 0.5rem 0.75rem;
+        padding: 0.375rem 0.5rem;
         border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        font-size: 0.875rem;
+        border-radius: 4px;
+        font-size: 0.8125rem;
     }
 
     .detail-table input:focus {
@@ -287,40 +280,39 @@
         background: #fee2e2;
         color: #dc2626;
         border: 1px solid #fecaca;
-        padding: 0.375rem 0.875rem;
-        border-radius: 6px;
-        font-size: 0.8125rem;
+        padding: 0.25rem 0.625rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: 0.25rem;
     }
 
     .btn-remove:hover {
         background: #fecaca;
-        border-color: #fca5a5;
     }
 
     .form-actions {
         display: flex;
-        gap: 1rem;
+        gap: 0.75rem;
         justify-content: flex-end;
-        padding-top: 1.5rem;
+        padding-top: 1rem;
     }
 
     .btn-action {
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        font-size: 0.9375rem;
+        padding: 0.625rem 1.25rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
         font-weight: 600;
         border: none;
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.375rem;
         text-decoration: none;
     }
 
@@ -332,7 +324,6 @@
     .btn-primary:hover {
         background: #4f46e5;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
 
     .btn-secondary {
@@ -374,7 +365,7 @@
     .modal-header {
         background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
         color: white;
-        padding: 1.5rem;
+        padding: 1rem 1.25rem;
         border-radius: 12px 12px 0 0;
         display: flex;
         justify-content: space-between;
@@ -382,7 +373,7 @@
     }
 
     .modal-header h3 {
-        font-size: 1.25rem;
+        font-size: 1.125rem;
         font-weight: 600;
         margin: 0;
         display: flex;
@@ -394,11 +385,11 @@
         background: transparent;
         border: none;
         color: white;
-        font-size: 2rem;
+        font-size: 1.75rem;
         cursor: pointer;
         padding: 0;
-        width: 2rem;
-        height: 2rem;
+        width: 1.75rem;
+        height: 1.75rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -411,38 +402,38 @@
     }
 
     .modal-body {
-        padding: 1.5rem;
+        padding: 1.25rem;
         overflow-y: auto;
         flex: 1;
     }
 
     .search-box {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         position: relative;
     }
 
     .search-box input {
         width: 100%;
-        padding: 0.75rem 1rem;
-        padding-left: 2.75rem;
+        padding: 0.625rem 0.875rem;
+        padding-left: 2.5rem;
         border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        font-size: 0.9375rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
     }
 
     .search-box input:focus {
         outline: none;
         border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
     }
 
     .search-icon {
         position: absolute;
-        left: 1rem;
+        left: 0.875rem;
         top: 50%;
         transform: translateY(-50%);
         color: #9ca3af;
-        font-size: 1.125rem;
+        font-size: 1rem;
     }
 
     .modal-table-wrapper {
@@ -456,6 +447,7 @@
     .modal-table {
         width: 100%;
         border-collapse: collapse;
+        font-size: 0.875rem;
     }
 
     .modal-table thead {
@@ -466,16 +458,16 @@
     }
 
     .modal-table th {
-        padding: 0.875rem 1rem;
+        padding: 0.75rem;
         text-align: left;
         font-weight: 600;
         color: #374151;
         border-bottom: 2px solid #e5e7eb;
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
     }
 
     .modal-table td {
-        padding: 0.875rem 1rem;
+        padding: 0.75rem;
         border-bottom: 1px solid #e5e7eb;
         color: #6b7280;
     }
@@ -488,15 +480,15 @@
         background: #10b981;
         color: white;
         border: none;
-        padding: 0.5rem 1rem;
+        padding: 0.375rem 0.875rem;
         border-radius: 6px;
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: 0.25rem;
     }
 
     .btn-select-po:hover {
@@ -504,7 +496,7 @@
     }
 
     .modal-footer {
-        padding: 1rem 1.5rem;
+        padding: 0.875rem 1.25rem;
         border-top: 1px solid #e5e7eb;
         display: flex;
         justify-content: flex-end;
@@ -512,20 +504,21 @@
 
     .empty-state {
         text-align: center;
-        padding: 3rem 1rem;
+        padding: 2rem 1rem;
         color: #6b7280;
+        font-size: 0.875rem;
     }
 
     .empty-state i {
-        font-size: 3rem;
+        font-size: 2.5rem;
         color: #d1d5db;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         display: block;
     }
 
     .error-message {
         color: #dc2626;
-        font-size: 0.75rem;
+        font-size: 0.6875rem;
         margin-top: 0.25rem;
         display: flex;
         align-items: center;
@@ -534,6 +527,12 @@
 
     @keyframes spin {
         to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 1024px) {
+        .form-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
     @media (max-width: 768px) {
@@ -561,7 +560,8 @@
 
         .table-header {
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.5rem;
+            align-items: stretch;
         }
 
         .btn-add-row {
@@ -579,7 +579,7 @@
         <i class="bi bi-chevron-right"></i>
         <a href="{{ route('barang-masuk.index') }}">Barang Masuk</a>
         <i class="bi bi-chevron-right"></i>
-        <span>Tambah Barang Masuk</span>
+        <span>Tambah</span>
     </div>
     <h1 class="page-title">Tambah Barang Masuk</h1>
 </div>
@@ -595,8 +595,8 @@
     <div class="alert-custom alert-error">
         <i class="bi bi-exclamation-circle-fill"></i>
         <div>
-            <p style="font-weight: 600; margin-bottom: 0.5rem;">Terdapat kesalahan:</p>
-            <ul style="margin: 0; padding-left: 1.25rem;">
+            <p style="font-weight: 600; margin-bottom: 0.375rem;">Terdapat kesalahan:</p>
+            <ul style="margin: 0; padding-left: 1rem; font-size: 0.8125rem;">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -616,16 +616,15 @@
         </div>
 
         <div class="form-row">
-            <div class="form-group" style="grid-column: 1 / -1;">
+            <div class="form-group" style="grid-column: span 2;">
                 <label class="form-label">
-                    No Bukti (PO)
-                    <span class="required">*</span>
+                    No Bukti (PO) <span class="required">*</span>
                 </label>
                 <div class="input-group">
                     <input type="text" name="no_bukti" id="no_bukti"
                            class="form-control-custom"
                            readonly required
-                           placeholder="Pilih PO terlebih dahulu">
+                           placeholder="Pilih PO">
                     <button type="button" class="btn-search" onclick="openModal()">
                         <i class="bi bi-search"></i>
                         Cari PO
@@ -633,74 +632,56 @@
                 </div>
                 <span class="error-message" id="error-no_bukti" style="display:none;">
                     <i class="bi bi-exclamation-circle"></i>
-                    No Bukti (PO) wajib diisi
+                    Wajib diisi
                 </span>
             </div>
 
             <div class="form-group">
                 <label class="form-label">
-                    Tanggal Terima
-                    <span class="required">*</span>
+                    Tanggal Terima <span class="required">*</span>
                 </label>
                 <input type="date" name="tanggal_terima" id="tanggal_terima"
                        class="form-control-custom" required>
                 <span class="error-message" id="error-tanggal_terima" style="display:none;">
                     <i class="bi bi-exclamation-circle"></i>
-                    Tanggal Terima wajib diisi
+                    Wajib diisi
                 </span>
             </div>
 
             <div class="form-group">
-                <label class="form-label">
-                    Supplier ID
-                    <span class="required">*</span>
-                </label>
+                <label class="form-label">Supplier ID</label>
                 <input type="number" name="supplier_id" id="supplier_id"
-                       class="form-control-custom"
-                       readonly required
-                       placeholder="Auto fill dari PO">
+                       class="form-control-custom" readonly>
             </div>
 
             <div class="form-group">
-                <label class="form-label">
-                    Kode Supplier
-                    <span class="required">*</span>
-                </label>
+                <label class="form-label">Kode Supplier</label>
                 <input type="text" name="kode_supplier" id="kode_supplier"
-                       class="form-control-custom"
-                       readonly required
-                       placeholder="Auto fill dari PO">
+                       class="form-control-custom" readonly>
             </div>
 
             <div class="form-group">
-                <label class="form-label">
-                    Nama Supplier
-                    <span class="required">*</span>
-                </label>
+                <label class="form-label">Nama Supplier</label>
                 <input type="text" name="nama_supplier" id="nama_supplier"
-                       class="form-control-custom"
-                       readonly required
-                       placeholder="Auto fill dari PO">
+                       class="form-control-custom" readonly>
             </div>
 
             <div class="form-group">
                 <label class="form-label">
-                    Surat Jalan
-                    <span class="optional">(Opsional)</span>
+                    Surat Jalan <span class="optional">(Opsional)</span>
                 </label>
                 <input type="text" name="surat_jalan"
                        class="form-control-custom"
-                       placeholder="Nomor surat jalan (opsional)">
+                       placeholder="No. surat jalan">
             </div>
 
-            <div class="form-group" style="grid-column: 1 / -1;">
+            <div class="form-group" style="grid-column: span 2;">
                 <label class="form-label">
-                    Keterangan
-                    <span class="optional">(Opsional)</span>
+                    Keterangan <span class="optional">(Opsional)</span>
                 </label>
-                <textarea name="keterangan" rows="3"
+                <textarea name="keterangan" rows="2"
                           class="form-control-custom"
-                          placeholder="Keterangan tambahan (opsional)"></textarea>
+                          placeholder="Keterangan tambahan"></textarea>
             </div>
         </div>
     </div>
@@ -714,7 +695,7 @@
             </h3>
             <button type="button" id="add-row" class="btn-add-row">
                 <i class="bi bi-plus-circle"></i>
-                Tambah Barang
+                Tambah
             </button>
         </div>
 
@@ -722,13 +703,13 @@
             <table class="detail-table" id="detail-table">
                 <thead>
                     <tr>
-                        <th>Kode Barang</th>
+                        <th style="width: 120px;">Kode</th>
                         <th>Nama Barang</th>
-                        <th style="width: 120px;">Jml Order</th>
-                        <th style="width: 120px;">Jml Terima</th>
-                        <th style="width: 100px;">Satuan</th>
-                        <th style="width: 150px;">Tgl Kirim</th>
-                        <th style="width: 100px; text-align: center;">Aksi</th>
+                        <th style="width: 90px;">Order</th>
+                        <th style="width: 90px;">Terima</th>
+                        <th style="width: 80px;">Satuan</th>
+                        <th style="width: 130px;">Tgl Kirim</th>
+                        <th style="width: 80px; text-align: center;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -736,7 +717,7 @@
                         <td colspan="7">
                             <div class="empty-state">
                                 <i class="bi bi-inbox"></i>
-                                <p>Pilih PO terlebih dahulu untuk memuat detail barang</p>
+                                <p>Pilih PO untuk memuat detail barang</p>
                             </div>
                         </td>
                     </tr>
@@ -753,7 +734,7 @@
         </a>
         <button type="submit" class="btn-action btn-primary">
             <i class="bi bi-check-circle"></i>
-            Simpan Data
+            Simpan
         </button>
     </div>
 </form>
@@ -764,7 +745,7 @@
         <div class="modal-header">
             <h3>
                 <i class="bi bi-search"></i>
-                Cari Transaksi (Purchase Order)
+                Cari Purchase Order
             </h3>
             <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
         </div>
@@ -773,7 +754,7 @@
             <div class="search-box">
                 <i class="bi bi-search search-icon"></i>
                 <input type="text" id="searchPO"
-                       placeholder="Ketik untuk mencari berdasarkan no bukti atau nama supplier...">
+                       placeholder="Cari berdasarkan no bukti atau nama supplier...">
             </div>
 
             <div class="modal-table-wrapper">
@@ -783,17 +764,17 @@
                             <th>No Bukti</th>
                             <th>Nama Supplier</th>
                             <th>Supplier ID</th>
-                            <th>Tanggal Kirim</th>
-                            <th style="text-align: center;">Aksi</th>
+                            <th>Tanggal</th>
+                            <th style="text-align: center; width: 100px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td colspan="5">
-                                <div class="empty-state" style="padding: 2rem 1rem;">
-                                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
-                                        <div style="width: 24px; height: 24px; border: 2px solid #6366f1; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-                                        <span>Memuat data PO...</span>
+                                <div class="empty-state">
+                                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                        <div style="width: 20px; height: 20px; border: 2px solid #6366f1; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                                        <span>Loading...</span>
                                     </div>
                                 </div>
                             </td>
@@ -833,7 +814,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         fetch("{{ url('/transaksi') }}")
             .then(res => {
-                if (!res.ok) throw new Error('Network response was not ok');
+                if (!res.ok) throw new Error('Network error');
                 return res.json();
             })
             .then(data => {
@@ -843,12 +824,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     poData = data.pesanan;
                     renderPOTable(poData);
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state" style="padding: 2rem 1rem;"><i class="bi bi-inbox"></i><p>Tidak ada data PO PROSES</p></div></td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="bi bi-inbox"></i><p>Tidak ada data PO</p></div></td></tr>';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state" style="padding: 2rem 1rem; color: #dc2626;"><i class="bi bi-exclamation-circle"></i><p>Error memuat data PO</p></div></td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state" style="color: #dc2626;"><i class="bi bi-exclamation-circle"></i><p>Error loading data</p></div></td></tr>';
             });
     }
 
@@ -857,14 +838,14 @@ document.addEventListener("DOMContentLoaded", function () {
         tbody.innerHTML = "";
 
         if (data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state" style="padding: 2rem 1rem;"><i class="bi bi-search"></i><p>Tidak ada data yang sesuai dengan pencarian</p></div></td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="bi bi-search"></i><p>Tidak ada hasil</p></div></td></tr>';
             return;
         }
 
         data.forEach(item => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td style="font-weight: 600; color: #6366f1; font-family: 'Courier New', monospace;">${item.no_bukti || ''}</td>
+                <td style="font-weight: 600; color: #6366f1; font-family: monospace;">${item.no_bukti || ''}</td>
                 <td>${item.nama_supplier || 'N/A'}</td>
                 <td>${item.supplier_id || 'N/A'}</td>
                 <td>${item.created_at ? item.created_at.split("T")[0] : 'N/A'}</td>
@@ -900,7 +881,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("kode_supplier").value = btn.dataset.kode_supplier;
             document.getElementById("nama_supplier").value = btn.dataset.nama_supplier;
 
-            // Clear error
             document.getElementById("no_bukti").classList.remove('error');
             document.getElementById("error-no_bukti").style.display = 'none';
 
@@ -908,7 +888,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (noBukti) {
                 fetch("{{ url('/barang-masuk/transaksi') }}/" + encodeURIComponent(noBukti))
                     .then(res => {
-                        if (!res.ok) throw new Error('Network response was not ok');
+                        if (!res.ok) throw new Error('Network error');
                         return res.json();
                     })
                     .then(data => {
@@ -924,10 +904,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <td><input type="number" step="0.01" name="detail[${idx}][jumlah_terima]" value="0" class="jumlah-terima" required min="0.01" max="${barang.jumlah || 0}" data-max="${barang.jumlah || 0}"></td>
                                     <td><input type="text" name="detail[${idx}][satuan]" value="${barang.satuan || ''}" readonly></td>
                                     <td><input type="date" name="detail[${idx}][tgl_kirim]" value="${today}" required></td>
-                                    <td style="text-align: center;">
-                                        <button type="button" class="btn-remove remove-row">
+                                    <td style="text-align: center;"><button type="button" class="btn-remove remove-row">
                                             <i class="bi bi-trash"></i>
-                                            Hapus
                                         </button>
                                     </td>
                                 `;
@@ -950,7 +928,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const table = document.querySelector("#detail-table tbody");
         const newRow = document.createElement('tr');
         newRow.innerHTML = `
-            <td><input type="text" name="detail[${rowIndex}][kode_barang]" required placeholder="Kode barang"></td>
+            <td><input type="text" name="detail[${rowIndex}][kode_barang]" required placeholder="Kode"></td>
             <td><input type="text" name="detail[${rowIndex}][nama_barang]" required placeholder="Nama barang"></td>
             <td><input type="number" step="0.01" name="detail[${rowIndex}][jumlah_order]" class="jumlah-order" required placeholder="0" min="0.01"></td>
             <td><input type="number" step="0.01" name="detail[${rowIndex}][jumlah_terima]" class="jumlah-terima" required placeholder="0" min="0.01"></td>
@@ -959,7 +937,6 @@ document.addEventListener("DOMContentLoaded", function () {
             <td style="text-align: center;">
                 <button type="button" class="btn-remove remove-row">
                     <i class="bi bi-trash"></i>
-                    Hapus
                 </button>
             </td>
         `;
@@ -969,13 +946,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("click", function (e) {
         if (e.target.closest(".remove-row")) {
-            if (confirm('Apakah Anda yakin ingin menghapus baris ini?')) {
+            if (confirm('Hapus baris ini?')) {
                 e.target.closest("tr").remove();
             }
         }
     });
 
-    // Validasi real-time jumlah terima tidak melebihi jumlah order
+    // Validasi real-time jumlah terima
     document.addEventListener('input', function(e) {
         if (e.target.classList.contains('jumlah-terima')) {
             const row = e.target.closest('tr');
@@ -984,35 +961,32 @@ document.addEventListener("DOMContentLoaded", function () {
             const jumlahTerima = parseFloat(e.target.value) || 0;
             const maxValue = parseFloat(e.target.getAttribute('data-max')) || jumlahOrder;
 
-            // Remove previous error
             e.target.classList.remove('error');
             const existingError = e.target.parentNode.querySelector('.error-message');
             if (existingError) {
                 existingError.remove();
             }
 
-            // Validasi
             if (jumlahTerima <= 0) {
                 e.target.classList.add('error');
                 const errorMsg = document.createElement('div');
                 errorMsg.className = 'error-message';
-                errorMsg.innerHTML = '<i class="bi bi-exclamation-circle"></i> Jumlah terima harus lebih dari 0';
+                errorMsg.innerHTML = '<i class="bi bi-exclamation-circle"></i> Harus > 0';
                 e.target.parentNode.appendChild(errorMsg);
             } else if (jumlahTerima > maxValue) {
                 e.target.classList.add('error');
-                e.target.value = maxValue; // Auto correct ke nilai maksimal
+                e.target.value = maxValue;
                 const errorMsg = document.createElement('div');
                 errorMsg.className = 'error-message';
-                errorMsg.innerHTML = `<i class="bi bi-exclamation-circle"></i> Jumlah terima tidak boleh melebihi ${maxValue}`;
+                errorMsg.innerHTML = `<i class="bi bi-exclamation-circle"></i> Max: ${maxValue}`;
                 e.target.parentNode.appendChild(errorMsg);
 
                 setTimeout(() => {
                     errorMsg.remove();
-                }, 3000);
+                }, 2500);
             }
         }
 
-        // Update max attribute untuk jumlah terima saat jumlah order berubah
         if (e.target.classList.contains('jumlah-order')) {
             const row = e.target.closest('tr');
             const jumlahTerimaInput = row.querySelector('.jumlah-terima');
@@ -1032,7 +1006,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let hasError = false;
         let errorMessages = [];
 
-        // Validasi header fields
+        // Validasi header
         const noBukti = document.getElementById('no_bukti').value.trim();
         const tanggalTerima = document.getElementById('tanggal_terima').value.trim();
         const supplierId = document.getElementById('supplier_id').value.trim();
@@ -1059,13 +1033,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!supplierId) {
             hasError = true;
-            errorMessages.push('• Supplier wajib dipilih (pilih PO terlebih dahulu)');
+            errorMessages.push('• Supplier wajib dipilih (pilih PO)');
         }
 
-        // Validasi detail barang
+        // Validasi detail
         const detailRows = document.querySelectorAll('#detail-table tbody tr');
 
-        // Cek apakah ada detail
         const hasDetail = Array.from(detailRows).some(row => {
             const inputs = row.querySelectorAll('input[name*="[kode_barang]"]');
             return inputs.length > 0;
@@ -1073,10 +1046,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!hasDetail) {
             hasError = true;
-            errorMessages.push('• Minimal harus ada 1 detail barang (pilih PO terlebih dahulu)');
+            errorMessages.push('• Minimal 1 detail barang (pilih PO)');
         }
 
-        // Validasi setiap baris detail
+        // Validasi setiap baris
         detailRows.forEach((row, index) => {
             const kodeBarang = row.querySelector('input[name*="[kode_barang]"]');
             const namaBarang = row.querySelector('input[name*="[nama_barang]"]');
@@ -1085,7 +1058,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const satuan = row.querySelector('input[name*="[satuan]"]');
             const tglKirim = row.querySelector('input[name*="[tgl_kirim]"]');
 
-            if (!kodeBarang || !namaBarang) return; // Skip empty rows
+            if (!kodeBarang || !namaBarang) return;
 
             const namaBarangValue = namaBarang.value.trim();
             const jumlahOrderValue = parseFloat(jumlahOrder?.value) || 0;
@@ -1093,46 +1066,40 @@ document.addEventListener("DOMContentLoaded", function () {
             const satuanValue = satuan?.value.trim();
             const tglKirimValue = tglKirim?.value.trim();
 
-            // Validasi kode barang
             if (!kodeBarang.value.trim()) {
                 hasError = true;
-                errorMessages.push(`• Baris ${index + 1}: Kode barang wajib diisi`);
+                errorMessages.push(`• Baris ${index + 1}: Kode wajib diisi`);
                 kodeBarang.classList.add('error');
             }
 
-            // Validasi nama barang
             if (!namaBarangValue) {
                 hasError = true;
-                errorMessages.push(`• Baris ${index + 1}: Nama barang wajib diisi`);
+                errorMessages.push(`• Baris ${index + 1}: Nama wajib diisi`);
                 namaBarang.classList.add('error');
             }
 
-            // Validasi jumlah order
             if (jumlahOrderValue <= 0) {
                 hasError = true;
-                errorMessages.push(`• ${namaBarangValue || 'Baris ' + (index + 1)}: Jumlah order harus lebih dari 0`);
+                errorMessages.push(`• ${namaBarangValue || 'Baris ' + (index + 1)}: Jumlah order harus > 0`);
                 jumlahOrder?.classList.add('error');
             }
 
-            // Validasi jumlah terima
             if (jumlahTerimaValue <= 0) {
                 hasError = true;
-                errorMessages.push(`• ${namaBarangValue || 'Baris ' + (index + 1)}: Jumlah terima harus lebih dari 0`);
+                errorMessages.push(`• ${namaBarangValue || 'Baris ' + (index + 1)}: Jumlah terima harus > 0`);
                 jumlahTerima?.classList.add('error');
             } else if (jumlahTerimaValue > jumlahOrderValue) {
                 hasError = true;
-                errorMessages.push(`• ${namaBarangValue || 'Baris ' + (index + 1)}: Jumlah terima (${jumlahTerimaValue}) tidak boleh melebihi jumlah order (${jumlahOrderValue})`);
+                errorMessages.push(`• ${namaBarangValue || 'Baris ' + (index + 1)}: Terima (${jumlahTerimaValue}) > Order (${jumlahOrderValue})`);
                 jumlahTerima?.classList.add('error');
             }
 
-            // Validasi satuan
             if (!satuanValue) {
                 hasError = true;
                 errorMessages.push(`• ${namaBarangValue || 'Baris ' + (index + 1)}: Satuan wajib diisi`);
                 satuan?.classList.add('error');
             }
 
-            // Validasi tanggal kirim
             if (!tglKirimValue) {
                 hasError = true;
                 errorMessages.push(`• ${namaBarangValue || 'Baris ' + (index + 1)}: Tanggal kirim wajib diisi`);
@@ -1141,13 +1108,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         if (hasError) {
-            // Tampilkan alert dengan daftar error
-            const errorMessage = '⚠️ VALIDASI GAGAL!\n\nPeriksa kembali data yang Anda masukkan:\n\n' +
+            const errorMessage = '⚠️ VALIDASI GAGAL!\n\n' +
                                 errorMessages.join('\n') +
                                 '\n\nSilakan perbaiki data terlebih dahulu.';
             alert(errorMessage);
 
-            // Scroll ke field pertama yang error
             const firstErrorInput = document.querySelector('.error');
             if (firstErrorInput) {
                 firstErrorInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1157,9 +1122,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return false;
         }
 
-        // Konfirmasi sebelum submit
-        const confirmMessage = 'Apakah Anda yakin ingin menyimpan data barang masuk ini?';
-        if (confirm(confirmMessage)) {
+        if (confirm('Simpan data barang masuk?')) {
             this.submit();
         }
     });
