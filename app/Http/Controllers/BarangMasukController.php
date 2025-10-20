@@ -21,7 +21,6 @@ class BarangMasukController extends Controller
         return view('barang-masuk.index', compact('barangMasuk'));
     }
 
-
     public function create()
     {
         return view('barang-masuk.create');
