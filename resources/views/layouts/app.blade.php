@@ -362,20 +362,24 @@
                         <span>Orders</span>
                         <i class="bi bi-chevron-down chevron"></i>
                     </button>
-<div class="submenu show" id="orders-submenu">
-    <a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
-        List Pembelian
-    </a>
-    <a href="{{ route('orders.create') }}" class="submenu-item {{ request()->routeIs('orders.create') ? 'active' : '' }}">
-        Order Pembelian
-    </a>
-    <a href="{{ route('barang-masuk.index') }}" class="submenu-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">
-        List Barang Masuk
-    </a>
-    <a href="{{ route('barang-masuk.create') }}" class="submenu-item {{ request()->routeIs('barang-masuk.create') ? 'active' : '' }}">
-        Terima Barang Masuk
-    </a>
-</div>
+                    <div class="submenu show" id="orders-submenu">
+                        <a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+                            <i class="bi bi-list-ul"></i>
+                            List Pembelian
+                        </a>
+                        <a href="{{ route('orders.create') }}" class="submenu-item {{ request()->routeIs('orders.create') ? 'active' : '' }}">
+                            <i class="bi bi-cart-plus"></i>
+                            Order Pembelian
+                        </a>
+                        <a href="{{ route('barang-masuk.index') }}" class="submenu-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">
+                            <i class="bi bi-clipboard-check"></i>
+                            List Barang Masuk
+                        </a>
+                        <a href="{{ route('barang-masuk.create') }}" class="submenu-item {{ request()->routeIs('barang-masuk.create') ? 'active' : '' }}">
+                            <i class="bi bi-box-arrow-in-down"></i>
+                            Terima Barang Masuk
+                        </a>
+                    </div>
 
                 <div class="menu-group">
                     <button class="menu-item {{ request()->routeIs('items.*') ? 'active expanded' : '' }}" onclick="toggleSubmenu('products-submenu', this)">
@@ -388,7 +392,8 @@
                             Product List
                         </a> --}}
                         <a href="{{ route('items.create') }}" class="submenu-item {{ request()->routeIs('items.create') ? 'active' : '' }}">
-                            Tambahkan Item
+                            <i class="bi bi-file-earmark-plus"></i>
+                            Tambah Item
                         </a>
                     </div>
                 </div>
