@@ -147,41 +147,41 @@ class OrderPembelianController extends Controller
         }
     }
 
-    public function getTransaksi()
-    {
-        // Ambil no_bukti yang sudah ada di barang_masuk dengan status BARANG KURANG atau DITERIMA
-        $excludedNoBukti = DB::table('barang_masuk')
-            ->whereIn('status', ['BARANG KURANG', 'DITERIMA'])
-            ->pluck('no_bukti')
-            ->toArray();
+    // public function getTransaksi()
+    // {
+    //     // Ambil no_bukti yang sudah ada di barang_masuk dengan status BARANG KURANG atau DITERIMA
+    //     $excludedNoBukti = DB::table('barang_masuk')
+    //         ->whereIn('status', ['BARANG KURANG', 'DITERIMA'])
+    //         ->pluck('no_bukti')
+    //         ->toArray();
 
-        $pesanan = DB::table('order_pembelian')
-            ->join('suppliers', 'suppliers.id', '=', 'order_pembelian.supplier_id')
-            ->select(
-                'order_pembelian.no_bukti',
-                'order_pembelian.supplier_id',
-                'suppliers.nama as nama_supplier',
-                'suppliers.kode_supplier',
-                'order_pembelian.status',
-                'order_pembelian.created_at'
-            )
-            ->where('order_pembelian.status', 'PROSES')
-            ->whereNotIn('order_pembelian.no_bukti', $excludedNoBukti)
-            ->groupBy(
-                'order_pembelian.no_bukti',
-                'order_pembelian.supplier_id',
-                'suppliers.nama',
-                'suppliers.kode_supplier',
-                'order_pembelian.status',
-                'order_pembelian.created_at'
-            )
-            ->orderBy('order_pembelian.created_at', 'desc')
-            ->get();
+    //     $pesanan = DB::table('order_pembelian')
+    //         ->join('suppliers', 'suppliers.id', '=', 'order_pembelian.supplier_id')
+    //         ->select(
+    //             'order_pembelian.no_bukti',
+    //             'order_pembelian.supplier_id',
+    //             'suppliers.nama as nama_supplier',
+    //             'suppliers.kode_supplier',
+    //             'order_pembelian.status',
+    //             'order_pembelian.created_at'
+    //         )
+    //         ->where('order_pembelian.status', 'PROSES')
+    //         ->whereNotIn('order_pembelian.no_bukti', $excludedNoBukti)
+    //         ->groupBy(
+    //             'order_pembelian.no_bukti',
+    //             'order_pembelian.supplier_id',
+    //             'suppliers.nama',
+    //             'suppliers.kode_supplier',
+    //             'order_pembelian.status',
+    //             'order_pembelian.created_at'
+    //         )
+    //         ->orderBy('order_pembelian.created_at', 'desc')
+    //         ->get();
 
-        return response()->json([
-            'success' => true,
-            'pesanan' => $pesanan,
-            // 'excluded_count' => count($excludedNoBukti) // Optional: untuk tau berapa yang di-exclude
-        ]);
-    }
+    //     return response()->json([
+    //         'success' => true,
+    //         'pesanan' => $pesanan,
+    //         // 'excluded_count' => count($excludedNoBukti) // Optional: untuk tau berapa yang di-exclude
+    //     ]);
+    // }
 }

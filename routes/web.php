@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', OrderPembelianController::class);
 
     // Barang Masuk
-    Route::get('/transaksi', [OrderPembelianController::class, 'getTransaksi'])->name('transaksi.index');
+    Route::get('/transaksi', [BarangMasukController::class, 'getTransaksi'])->name('transaksi.index');
     Route::get('/barang-masuk/transaksi', [BarangMasukController::class, 'getTransaksiPO']);
     Route::get('/barang-masuk/transaksi/{no_bukti}', [BarangMasukController::class, 'getDetailBarang'])->name('barang-masuk.detail');
     Route::resource('barang-masuk', BarangMasukController::class);

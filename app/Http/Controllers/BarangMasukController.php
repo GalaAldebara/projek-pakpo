@@ -136,47 +136,50 @@ class BarangMasukController extends Controller
     }
 
     // ✅ API untuk ambil daftar PO (dipakai oleh modal)
-    public function getTransaksiPO()
+    public function getTransaksi()
     {
-        // Debug: Cek data barang_masuk
-        $excludedNoBukti = DB::table('barang_masuk')
-            ->whereIn('status', ['BARANG KURANG', 'DITERIMA'])
-            ->pluck('no_bukti')
-            ->toArray();
+        try {
+            \Log::info('getTransaksi called');
+            // Ambil no_bukti yang sudah ada di barang_masuk
+            $excludedNoBukti = DB::table('barang_masuk')
+                ->whereIn('status', ['BARANG KURANG', 'DITERIMA'])
+                ->pluck('no_bukti')
+                ->unique()
+                ->toArray();
 
-        // Log untuk debugging (hapus setelah selesai)
-        Log::info('Excluded No Bukti:', $excludedNoBukti);
+            \Log::info('Excluded no_bukti:', $excludedNoBukti);                
 
-        $pesanan = DB::table('order_pembelian')
-            ->join('suppliers', 'suppliers.id', '=', 'order_pembelian.supplier_id')
-            ->select(
-                'order_pembelian.no_bukti',
-                'order_pembelian.supplier_id',
-                'suppliers.nama as nama_supplier',
-                'suppliers.kode_supplier',
-                'order_pembelian.status',
-                'order_pembelian.created_at'
-            )
-            ->where('order_pembelian.status', 'PROSES')
-            ->whereNotIn('order_pembelian.no_bukti', $excludedNoBukti)
-            ->groupBy(
-                'order_pembelian.no_bukti',
-                'order_pembelian.supplier_id',
-                'suppliers.nama',
-                'suppliers.kode_supplier',
-                'order_pembelian.status',
-                'order_pembelian.created_at'
-            )
-            ->orderBy('order_pembelian.created_at', 'desc')
-            ->get();
+            // ✅ Gunakan DISTINCT dan subquery
+            $pesanan = DB::table(DB::raw('(SELECT DISTINCT no_bukti, supplier_id, status, created_at FROM order_pembelian WHERE status = "PROSES") as op'))
+                ->join('suppliers', 'suppliers.id', '=', 'op.supplier_id')
+                ->select(
+                    'op.no_bukti',
+                    'op.supplier_id',
+                    'suppliers.nama as nama_supplier',
+                    'suppliers.kode_supplier',
+                    'op.status',
+                    'op.created_at'
+                )
+                ->whereNotIn('op.no_bukti', $excludedNoBukti)
+                ->orderBy('op.created_at', 'desc')
+                ->get();
 
-        // Log hasil query
-        Log::info('Hasil Pesanan:', $pesanan->toArray());
+            \Log::info('Query result count: ' . $pesanan->count());
+            
+            return response()->json([
+                'success' => true,
+                'pesanan' => $pesanan,
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'pesanan' => $pesanan
-        ]);
+        } catch (\Exception $e) {
+            \Log::error('Error getTransaksi: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage(),
+                'pesanan' => []
+            ], 500);
+        }
     }
 
     // ✅ API untuk ambil detail PO berdasarkan no_bukti
